@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tadweer | Treasury cash view (mockup)</title>
+<style>
+:root{--paper:#fafaf7;--ink:#14202e;--mut:#6f7480;--rule:#d9dde3;--acc:#1663c7;--acc2:#21b07c;--sand:#9fb8d6;--red:#b8321f;--amb:#b7791f;--grn:#2f7d4f;--wash:#eef1f4;--f:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;--fh:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,serif;--fm:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;color:var(--ink);font:14px/1.5 var(--f);padding-bottom:60px}
+.serif,h1{font-family:var(--fh);font-weight:400}
+b,strong{font-weight:600}
+.hdr{border-bottom:1px solid var(--rule);background:var(--paper);position:sticky;top:0;z-index:20}
+.hdr .wrap{display:flex;align-items:center;gap:16px;height:58px}
+.logo{height:30px;display:block}
+.prod{font:12px var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);border-left:1px solid var(--sand);padding-left:16px}
+.hdr .demo{margin-left:auto}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.lnk{color:var(--acc);cursor:pointer;text-decoration:none;border-bottom:1px solid var(--sand)}
+.lnk:hover{border-color:var(--acc)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px 28px;padding:14px 0 0;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-bottom:12px}
+.brand{font:600 12px var(--fm);letter-spacing:.14em;text-transform:uppercase}
+.views{display:flex;gap:22px;margin-left:auto;align-self:flex-end;flex-wrap:wrap}
+.views span{cursor:pointer;color:var(--mut);padding:0 0 12px;margin-bottom:-1px;border-bottom:2px solid transparent;white-space:nowrap}
+.views span.on{color:var(--ink);border-color:var(--acc)}
+.views span{display:inline-flex;align-items:baseline;gap:6px}
+.sc{display:inline-block;font:600 9.5px var(--fm);letter-spacing:.06em;text-transform:uppercase;border-radius:8px;padding:0 6px;font-style:normal;line-height:16px}
+.sc.p{background:#e3f4ec;color:#1b6b45}.sc.o{background:#efe9fb;color:#5a3fb8}.sc.r{background:#eceef1;color:#5b6170}
+.scopebar{display:none}
+.rmbar{margin:22px 0 0;padding:12px 16px;border:1px dashed #cbbcf0;border-radius:10px;background:#faf8ff;font-size:13px}
+.rmbar .chip.on{background:#5a3fb8;border-color:#5a3fb8;color:#fff}
+.sc.r{background:#efe9fb;color:#5a3fb8}
+.tag{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.demo{color:#8a6d00;border:1px solid #d9c27a;padding:1px 7px}
+.focus{display:inline-flex;gap:6px;align-items:center;background:var(--wash);padding:2px 10px;border-radius:12px;font-size:12.5px}
+.focus b{cursor:pointer;color:var(--mut);font-weight:400}
+.eyebrow{margin:30px 0 4px;color:var(--mut);font-size:12.5px}
+.hero{font-size:44px;line-height:1.12;margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:#4d535d;max-width:780px;font-size:15px;margin:0 0 6px}
+.brief{border-left:2px solid var(--acc2);padding-left:12px;margin-top:14px;max-width:780px;color:#4d535d}
+.brief p{margin:4px 0}
+h2{font:600 11.5px var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 12px}
+section{padding:26px 0;border-top:1px solid var(--rule)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.att{display:grid;grid-template-columns:14px 1fr auto;gap:8px 12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--wash)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--amb)}
+.dot.critical{background:var(--red)}.dot.info{background:var(--sand)}.dot.ok{background:var(--grn)}
+.bar{display:grid;grid-template-columns:130px 1fr 64px;gap:10px;align-items:center;padding:3px 0;cursor:pointer;font-size:13px}
+.bar:hover .lbl{text-decoration:underline}
+.bar .trk{height:12px;position:relative}.bar .fill{height:12px;background:var(--acc);display:block}
+.bar.sel .fill{background:var(--ink)}.bar .v{text-align:right;font-variant-numeric:tabular-nums}
+.bar .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.read{min-height:22px;font-size:13px;margin-top:6px;font-variant-numeric:tabular-nums}
+input[type=range]{width:200px;accent-color:var(--acc);vertical-align:middle}
+.chip{display:inline-block;border:1px solid var(--rule);padding:3px 11px;border-radius:14px;cursor:pointer;font-size:12.5px;color:#4b505a;background:var(--paper)}.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin:16px 0 8px}.stat .n1{font:30px/1.15 var(--fh)}.stat .l{font:600 11px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.stat .s{font-size:12px;color:var(--mut)}
+.sbar{display:grid;grid-template-columns:200px 1fr 120px;gap:10px;align-items:center;font-size:13px;padding:3px 0}.sbar .trk{height:10px;background:var(--wash);display:block}.sbar .fill{display:block;height:10px}
+.scen{display:flex;gap:12px;align-items:center;font-size:13px;margin:0 0 6px;flex-wrap:wrap}.scen label{min-width:290px}
+svg text{font:11px "Segoe UI",Helvetica,Arial,sans-serif;fill:#6b707a}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font:600 11px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-align:left;padding:6px 8px;border-bottom:1px solid var(--ink);white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid var(--wash);vertical-align:top}
+tr.tot td{border-bottom:1px solid var(--ink)}
+.n{text-align:right;font-variant-numeric:tabular-nums}.neg{color:var(--red)}.pos{color:var(--grn)}.mut{color:var(--mut)}
+input[type=text]{border:0;border-bottom:1px solid var(--ink);background:transparent;padding:6px 2px;font:inherit;width:260px;outline:none}
+.note{color:var(--mut);font-size:12.5px;max-width:780px}
+details.fold{border:1px solid var(--rule);border-radius:10px;margin:12px 0;background:var(--paper)}
+details.fold>summary{list-style:none;cursor:pointer;padding:13px 16px;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:10px}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:"\25B8";color:var(--mut);transition:transform .15s;display:inline-block}
+details.fold[open]>summary::before{transform:rotate(90deg)}
+details.fold>summary .mut{font-weight:400;font-size:12.5px}
+details.fold>.fb{padding:2px 16px 16px;border-top:1px solid var(--wash)}
+details.fold:hover{border-color:var(--sand)}
+.ask{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--acc);cursor:pointer;white-space:nowrap}
+.ask svg{width:15px;height:15px}
+.sg{display:inline-block;font:600 9.5px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:#5a3fb8;border:1px solid #cbbcf0;border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:2px}
+.need{display:inline-block;font:600 10px var(--fm);letter-spacing:.06em;text-transform:uppercase;border-radius:8px;padding:1px 7px}
+.need.t1{background:#e3f4ec;color:#1b6b45}.need.t2{background:#e4edf9;color:#1d58a8}.need.t3{background:#efe9fb;color:#5a3fb8}
+.idea{display:grid;grid-template-columns:170px 1fr;gap:6px 22px;padding:14px 0;border-bottom:1px solid var(--wash)}
+.idea h3{margin:0 0 3px;font:600 15px var(--fm)}
+.idea p{margin:0;color:#4d535d;font-size:13.5px}
+.idea .why{color:var(--mut);font-size:12.5px;margin-top:4px}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;font-size:13px;display:none;z-index:9;max-width:80vw}
+@media(max-width:820px){.cols{grid-template-columns:1fr}.hero{font-size:32px}.stats{grid-template-columns:repeat(2,1fr)}.sbar{grid-template-columns:130px 1fr 100px}.idea{grid-template-columns:1fr}}
+
+/* ===== chart animation on hover (animated copy) ===== */
+svg.anim-on .a-line{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.1s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+svg.anim-on .a-fade{animation:afade .8s ease both;animation-delay:.3s}
+@keyframes afade{from{opacity:0}}
+svg.anim-on .a-pop{transform-box:fill-box;transform-origin:center;animation:apop .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes apop{from{transform:scale(0)}to{transform:scale(1)}}
+svg.anim-on .a-grow{transform-box:fill-box;animation:agrow .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes agrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.anim-bars.anim-on .fill{animation:abar .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes abar{from{width:0}}
+@media (prefers-reduced-motion: reduce){svg.anim-on *,.anim-bars.anim-on *{animation:none!important}}
+
+/* ===== EXPERIMENT E1–E10 ===== */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 4px}
+.kpi{border:1px solid var(--rule);border-radius:12px;padding:12px 14px;background:var(--paper)}
+.kpi .l{font:600 10.5px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.kpi .v{font:26px/1.2 var(--fh)}.kpi .d{font-size:12px;color:var(--mut)}
+.kpi svg{display:block;margin-top:6px}
+.cmp{display:inline-flex;border:1px solid var(--rule);border-radius:14px;overflow:hidden;font-size:12px;vertical-align:middle;margin-left:8px}
+.cmp span{padding:2px 10px;cursor:pointer;color:var(--mut)}.cmp span.on{background:var(--ink);color:var(--paper)}
+.chg{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--wash);font-size:13.5px}
+.chg .ar{font-weight:700}
+/* E9b: hover card replaces the text line under each chart */
+.read{display:none}
+#ttip{position:fixed;z-index:30;pointer-events:none;background:var(--ink);color:var(--paper);font-size:12px;line-height:1.45;padding:8px 10px;border-radius:8px;max-width:320px;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:0;transition:opacity .12s}
+#ttip .mut{color:#c7ceda}
+.wfx{font-size:13px;color:#4d535d;margin:6px 0 0}
+.modebtn{margin-left:10px;border:1px solid var(--rule);background:transparent;border-radius:14px;padding:3px 10px;font:inherit;font-size:12px;cursor:pointer;color:var(--ink)}
+html.dark{filter:invert(.92) hue-rotate(180deg);background:#fafaf7}
+html.dark img{filter:invert(1) hue-rotate(180deg)}
+#chatbtn{position:fixed;right:22px;bottom:22px;width:54px;height:54px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,#1663c7,#21b07c);color:#fff;box-shadow:0 8px 24px rgba(22,99,199,.35);z-index:40;display:flex;align-items:center;justify-content:center}
+#chatbtn svg{width:24px;height:24px}
+#chat{position:fixed;right:22px;bottom:88px;width:360px;max-width:calc(100vw - 32px);height:480px;max-height:70vh;background:var(--paper);border:1px solid var(--rule);border-radius:16px;box-shadow:0 18px 50px rgba(20,32,46,.22);z-index:40;display:none;flex-direction:column;overflow:hidden}
+#chat.open{display:flex}
+#chat .ch{padding:12px 14px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:8px}
+#chat .ch b{font-size:14px}#chat .ch .tag{margin-left:auto}
+#chat .cstudio{background:#fff7e3;border-bottom:1px solid #efd58e;color:#6f5200;font-size:11.5px;line-height:1.45;padding:8px 14px}
+#chat .cb{flex:1;overflow:auto;padding:12px 14px;font-size:13px}
+#chat .m{margin:0 0 10px;max-width:88%;padding:8px 11px;border-radius:12px;line-height:1.45}
+#chat .m.u{margin-left:auto;background:var(--ink);color:var(--paper);border-bottom-right-radius:4px}
+#chat .m.a{background:var(--wash);border-bottom-left-radius:4px}
+#chat .m.a .src{display:block;color:var(--mut);font-size:11px;margin-top:4px}
+#chat .sq{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
+#chat .sq span{font-size:11.5px;border:1px solid var(--rule);border-radius:12px;padding:3px 9px;cursor:pointer}
+#chat .sq span:hover{border-color:var(--ink)}
+#chat form{display:flex;border-top:1px solid var(--rule)}
+#chat input{flex:1;border:0;padding:12px 14px;font:inherit;background:transparent;outline:none;color:var(--ink);width:auto}
+#chat button.s{border:0;background:transparent;color:var(--acc);font-weight:600;padding:0 14px;cursor:pointer}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="wrap"><img class="logo" alt="Tadweer Group" src="data:image/png;base64,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"><span class="prod">Treasury cash view</span><span class="tag demo">Mockup · balances from your position file, flows illustrative</span></div></div>
+<div class="wrap">
+  <div class="top">
+    <div class="meta"><span class="brand">Weekly cash flow</span><span class="tag" id="asof"></span><span id="focus"></span></div>
+    <div class="views" id="views"></div>
+  </div>
+  <div id="scopebar" class="scopebar"></div>
+  <div id="view"></div>
+  <p class="note" style="margin-top:30px" id="foot"></p>
+</div>
+<div id="toast"></div>
+<script>
+/* ---------------- data ----------------
+   Balances, composition, banks, currencies, yields and maturities: Tadweer weekly position file (Summary sheet), Fridays 07 Aug to 30 Oct 2026, aggregated; no account numbers.
+   Receipts/payments categories, forecast and largest movements: illustrative until the TMS transaction export and forecast template are connected. */
+const AS_OF='30 Oct 2026', BUF=300e6, OPMIN=40e6;
+const WK=[{"w": "07 Aug", "cash": 426.7, "ca": 6.4, "fd": 353.6, "mmf": 66.7, "yld": 0.03982, "fx": 0.0, "other": 0.0, "restr": 353.8, "n": 28.0, "sh": 1927.8}, {"w": "14 Aug", "cash": 405.0, "ca": 16.0, "fd": 316.8, "mmf": 72.3, "yld": 0.03974, "fx": 0.1, "other": 0.0, "restr": 320.9, "n": 28.0, "sh": 1927.8}, {"w": "21 Aug", "cash": 393.6, "ca": 4.1, "fd": 317.3, "mmf": 72.2, "yld": 0.03763, "fx": 0.2, "other": 0.0, "restr": 317.3, "n": 29.0, "sh": 1927.8}, {"w": "28 Aug", "cash": 360.6, "ca": 9.4, "fd": 291.3, "mmf": 59.8, "yld": 0.03985, "fx": -0.1, "other": 0.0, "restr": 291.4, "n": 28.0, "sh": 1927.8}, {"w": "04 Sep", "cash": 330.2, "ca": 43.1, "fd": 227.0, "mmf": 60.1, "yld": 0.03919, "fx": 0.1, "other": 0.0, "restr": 227.0, "n": 27.0, "sh": 1932.2}, {"w": "11 Sep", "cash": 251.7, "ca": 24.5, "fd": 227.1, "mmf": 0.0, "yld": 0.04167, "fx": -0.0, "other": 49.3, "restr": 227.3, "n": 24.0, "sh": 1932.2}, {"w": "18 Sep", "cash": 294.0, "ca": 17.7, "fd": 227.3, "mmf": 48.9, "yld": 0.04078, "fx": -0.0, "other": 0.0, "restr": 227.5, "n": 27.0, "sh": 1932.2}, {"w": "25 Sep", "cash": 269.6, "ca": 16.5, "fd": 217.2, "mmf": 35.9, "yld": 0.04157, "fx": -0.1, "other": 0.0, "restr": 217.4, "n": 25.0, "sh": 1932.2}, {"w": "02 Oct", "cash": 261.8, "ca": 93.8, "fd": 107.3, "mmf": 60.6, "yld": 0.03583, "fx": -0.2, "other": 0.0, "restr": 107.5, "n": 24.0, "sh": 1936.8}, {"w": "09 Oct", "cash": 166.7, "ca": 20.9, "fd": 107.4, "mmf": 38.5, "yld": 0.03827, "fx": -0.1, "other": 0.0, "restr": 107.5, "n": 24.0, "sh": 1936.8}, {"w": "16 Oct", "cash": 512.5, "ca": 372.0, "fd": 107.4, "mmf": 33.1, "yld": 0.03234, "fx": 0.1, "other": 0.0, "restr": 467.5, "n": 24.0, "sh": 1936.8}, {"w": "23 Oct", "cash": 472.3, "ca": 29.6, "fd": 409.6, "mmf": 33.1, "yld": 0.04307, "fx": 0.0, "other": 0.0, "restr": 99.3, "n": 32.0, "sh": 1936.8}, {"w": "30 Oct", "cash": 475.8, "ca": 33.3, "fd": 391.2, "mmf": 51.3, "yld": 0.04299, "fx": -0.2, "other": 0.0, "restr": 403.2, "n": 33.0, "sh": 1936.8}];
+const MONTHEND=[{"d": "31 Aug", "cash": 357.3}, {"d": "30 Sep", "cash": 280.6}, {"d": "31 Oct", "cash": 474.5}];
+const POSR=[{"bank": "BNP", "type": "Fixed deposit", "ccy": "USD", "aed": 69.78, "yld": 0.043, "mat": "16 Dec 2026", "restr": true}, {"bank": "KFH", "type": "Fixed deposit", "ccy": "USD", "aed": 55.09, "yld": 0.049, "mat": "23 Nov 2026", "restr": true}, {"bank": "BNP", "type": "Fixed deposit", "ccy": "USD", "aed": 36.73, "yld": 0.0415, "mat": "17 Nov 2026", "restr": true}, {"bank": "KFH", "type": "Fixed deposit", "ccy": "USD", "aed": 36.73, "yld": 0.05, "mat": "21 Dec 2026", "restr": true}, {"bank": "ADCB", "type": "Fixed deposit", "ccy": "USD", "aed": 36.73, "yld": 0.0435, "mat": "09 Dec 2026", "restr": true}, {"bank": "BNP", "type": "Fixed deposit", "ccy": "USD", "aed": 36.73, "yld": 0.0408, "mat": "03 Nov 2026", "restr": true}, {"bank": "KFH", "type": "Fixed deposit", "ccy": "USD", "aed": 36.73, "yld": 0.0492, "mat": "30 Nov 2026", "restr": true}, {"bank": "HSBC", "type": "Money market fund", "ccy": "USD", "aed": 34.89, "yld": 0.0401, "mat": null, "restr": false}, {"bank": "ADCB", "type": "Fixed deposit", "ccy": "USD", "aed": 18.36, "yld": 0.0442, "mat": "23 Dec 2026", "restr": true}, {"bank": "BNP", "type": "Fixed deposit", "ccy": "USD", "aed": 18.36, "yld": 0.0412, "mat": "03 Nov 2026", "restr": true}, {"bank": "KFH", "type": "Fixed deposit", "ccy": "USD", "aed": 18.36, "yld": 0.05, "mat": "21 Dec 2026", "restr": true}, {"bank": "HSBC", "type": "Money market fund", "ccy": "EUR", "aed": 16.37, "yld": 0.0258, "mat": null, "restr": false}, {"bank": "FAB", "type": "Current account", "ccy": "AED", "aed": 14.96, "yld": 0.02925, "mat": null, "restr": false}, {"bank": "KFH", "type": "Fixed deposit", "ccy": "USD", "aed": 14.69, "yld": 0.0465, "mat": "11 Nov 2026", "restr": true}, {"bank": "BNP", "type": "Fixed deposit", "ccy": "USD", "aed": 12.95, "yld": 0.04062, "mat": "21 Dec 2026", "restr": true}, {"bank": "FAB", "type": "Current account", "ccy": "AED", "aed": 10.52, "yld": 0.02925, "mat": null, "restr": true}, {"bank": "FAB", "type": "Current account", "ccy": "USD", "aed": 5.79, "yld": 0.03015, "mat": null, "restr": false}, {"bank": "FAB", "type": "Current account", "ccy": "USD", "aed": 1.48, "yld": 0.0279, "mat": null, "restr": true}, {"bank": "FAB", "type": "Current account", "ccy": "AED", "aed": 0.3, "yld": 0.02925, "mat": null, "restr": false}, {"bank": "FAB", "type": "Current account", "ccy": "AED", "aed": 0.09, "yld": 0.02925, "mat": null, "restr": false}, {"bank": "BNP", "type": "Current account", "ccy": "USD", "aed": 0.06, "yld": 0.0, "mat": null, "restr": false}, {"bank": "ADCB", "type": "Current account", "ccy": "EUR", "aed": 0.04, "yld": 0.0, "mat": null, "restr": false}, {"bank": "BNP", "type": "Current account", "ccy": "AED", "aed": 0.03, "yld": 0.0, "mat": null, "restr": false}, {"bank": "ADCB", "type": "Current account", "ccy": "AED", "aed": 0.02, "yld": 0.03275, "mat": null, "restr": false}, {"bank": "FAB", "type": "Current account", "ccy": "EUR", "aed": 0.01, "yld": 0.0, "mat": null, "restr": true}, {"bank": "ADCB", "type": "Current account", "ccy": "USD", "aed": 0.01, "yld": 0.03146, "mat": null, "restr": false}, {"bank": "JPM", "type": "Current account", "ccy": "USD", "aed": 0.0, "yld": 0.0, "mat": null, "restr": false}, {"bank": "FAB", "type": "Current account", "ccy": "AUD", "aed": 0.0, "yld": 0.0, "mat": null, "restr": false}, {"bank": "FAB", "type": "Current account", "ccy": "AED", "aed": 0.0, "yld": 0.02925, "mat": null, "restr": true}, {"bank": "ADCB", "type": "Current account", "ccy": "AUD", "aed": 0.0, "yld": 0.0, "mat": null, "restr": false}, {"bank": "HSBC", "type": "Money market fund", "ccy": "USD", "aed": 0.0, "yld": 0.0401, "mat": null, "restr": false}, {"bank": "Invesco", "type": "Money market fund", "ccy": "USD", "aed": 0.0, "yld": 0.0401, "mat": null, "restr": false}, {"bank": "HSBC", "type": "Money market fund", "ccy": "USD", "aed": 0.0, "yld": 0.0401, "mat": null, "restr": false}];
+const W=WK.map(w=>w.w);
+const CATS=[['Customer receipts','#2f7d4f'],['Other receipts','#7fbf9b'],['Suppliers & contractors','#b8321f'],['Payroll','#d9785f'],['Lease & debt service','#7d2416'],['Tax & government fees','#e7aa9c'],['Uncategorised','#9aa1ab']];
+/* illustrative category pattern, scaled each week so it ties to the real net change */
+const PAT={'Customer receipts':[0,47.6,26.2,55.8,30.1,24.0,53.7,40.3,31.9,37.4,58.6,45.1,52.4],'Other receipts':[0,4.5,3.5,5.5,3.7,3.5,5.2,3.9,3.7,3.8,5.1,4.7,4.9],
+'Suppliers & contractors':[0,44.2,30.8,36.5,35.9,58.3,21.6,29.4,40.7,86.1,32.2,38.0,41.3],'Payroll':[0,0,0,29.6,0,0,0,29.9,0,0,0,0,30.2],
+'Lease & debt service':[0,0,0,0,9.8,0,0,0,9.8,24.7,0,0,9.8],'Tax & government fees':[0,14.9,11.6,11.8,4.6,14.8,7.9,1.8,5.9,6.2,13.4,15.2,5.6],'Uncategorised':[0,1.9,2.1,1.9,1.8,1.8,1.9,1.9,1.8,1.6,1.9,1.9,2.0]};
+const FIN=WK.map(w=>w.w==='16 Oct'?345.8:0), FXT=WK.map(w=>w.fx);
+const ACT={};CATS.forEach(c=>ACT[c[0]]=WK.map(()=>0));
+const R=WK.map((w,i)=>{const o=i?WK[i-1].cash:w.cash;if(!i)return {w:w.w,i,o,r:0,p:0,f:0,x:0,c:w.cash};
+  const op=w.cash-o-FXT[i]-FIN[i];let rec=PAT['Customer receipts'][i]+PAT['Other receipts'][i];if(rec-op<5)rec=op+5;const pay=rec-op;
+  const rs=PAT['Customer receipts'][i]+PAT['Other receipts'][i];ACT['Customer receipts'][i]=rec*PAT['Customer receipts'][i]/rs;ACT['Other receipts'][i]=rec*PAT['Other receipts'][i]/rs;
+  const pk=['Suppliers & contractors','Payroll','Lease & debt service','Tax & government fees','Uncategorised'],ps=pk.reduce((a,k)=>a+PAT[k][i],0);pk.forEach(k=>ACT[k][i]=-pay*PAT[k][i]/ps);
+  return {w:w.w,i,o,r:rec,p:pay,f:FIN[i],x:FXT[i],c:w.cash};});
+const MIX=WK.map(w=>[w.ca/w.cash,w.fd/w.cash,w.mmf/w.cash]);
+const YREL=WK.map(w=>w.yld/WK[WK.length-1].yld);
+const FW=['06 Nov','13 Nov','20 Nov','27 Nov','04 Dec','11 Dec','18 Dec','25 Dec'];
+const FC={receipts:[42,55,40,48,45,52,38,30],suppliers:[-40,-24,-46,-38,-28,-50,-44,-35],payroll:[0,0,0,-31,0,0,0,-31],debt:[0,0,0,0,-9.8,0,0,0],tax:[-4,-6,-14,-6,-2,-17,-6,-4]};
+const EVENTS=[{n:1,w:'04 Sep',type:'placement',d:'Fixed deposits of AED 64.3m matured and stayed in cash (internal move)',eff:0},
+ {n:2,w:'11 Sep',type:'data',d:'Fund positions of AED 49.3m typed "Other" in the position file and left out of cash that week',eff:-49.3},
+ {n:3,w:'02 Oct',type:'placement',d:'Fixed deposits of AED 109.9m matured into current accounts (internal move)',eff:0},
+ {n:4,w:'16 Oct',type:'financing',d:'Shareholder cash call received (per treasury note)',eff:345.8},
+ {n:5,w:'23 Oct',type:'placement',d:'AED 302.2m placed from current accounts into fixed deposits (internal move)',eff:0}];
+const BIG=[['16 Oct','SHAREHOLDER CASH CALL Q3','Financing',345.8,'illustrative source reference'],['09 Oct','SUPPLIER PAYMENT BATCH','Suppliers & contractors',-48.2,'illustrative'],['09 Oct','SUPPLIER PAYMENT BATCH','Suppliers & contractors',-31.5,'illustrative'],['11 Sep','SUPPLIER SETTLEMENT Q3','Suppliers & contractors',-36.0,'illustrative'],['30 Oct','PAYROLL OCT','Payroll',-30.2,'illustrative'],['09 Oct','LEASE PAYMENT Q4','Lease & debt service',-24.7,'illustrative']];
+const PLACED_SH=WK[WK.length-1].sh;
+
+/* ---------------- calculations (in the pilot: tested scripts, not the page) ---------------- */
+const cats=CATS.map(c=>c[0]);
+const LAST=R[R.length-1];
+const ACC=POSR.map((p,k)=>({id:'masked',bank:p.bank,type:p.type,ccy:p.ccy,aed:p.aed,yld:p.yld,mat:p.mat,restr:p.restr}));
+const restricted=ACC.filter(a=>a.restr).reduce((a,x)=>a+x.aed,0);
+const avail=LAST.c;
+const wy=ACC.reduce((a,x)=>a+x.aed*x.yld,0)/ACC.reduce((a,x)=>a+x.aed,0);
+const idleNow=Math.max(0,ACC.filter(a=>a.type==='Current account'&&a.yld===0).reduce((a,x)=>a+x.aed,0)-OPMIN/1e6);
+const banks=[...new Set(ACC.map(a=>a.bank))].map(b=>({bank:b,aed:ACC.filter(a=>a.bank===b).reduce((s,x)=>s+x.aed,0)})).sort((a,b)=>b.aed-a.aed);banks.forEach(b=>b.share=b.aed/LAST.c);
+const ccys=[...new Set(ACC.map(a=>a.ccy))].map(c=>({ccy:c,aed:ACC.filter(a=>a.ccy===c).reduce((s,x)=>s+x.aed,0)})).sort((a,b)=>b.aed-a.aed);ccys.forEach(c=>c.share=c.aed/LAST.c);
+const wkOf=d=>{const x=new Date(d+' UTC');for(let i=0;i<FW.length;i++){const fe=new Date(FW[i]+' 2026 UTC');if(x<=fe&&x>new Date(fe.getTime()-7*864e5))return i;}return -1;};
+const fdMat=FW.map((w,i)=>ACC.filter(a=>a.mat&&wkOf(a.mat)===i).reduce((s,x)=>s+x.aed,0));
+const zeroPos=ACC.filter(a=>a.aed<0.005).length;
+const fridaysBelow=R.filter(r=>r.c<BUF/1e6).length, withMonthEnd=fridaysBelow+MONTHEND.filter(m=>m.cash<BUF/1e6).length;
+const LEV=[['receipts','Receipts',30],['suppliers','Supplier payments',30],['payroll','Payroll',20],['tax','Tax and fees',20]];
+const state={sub:'outlook',view:'summary',lv:{receipts:0,suppliers:0,payroll:0,tax:0},hb:'cash',bank:null,q:''};
+function fcPath(lv){let v=LAST.c;return FW.map((w,i)=>{const r=FC.receipts[i]*(1+lv.receipts/100),s=FC.suppliers[i]*(1+lv.suppliers/100),p=FC.payroll[i]*(1+lv.payroll/100),t=FC.tax[i]*(1+lv.tax/100),d=FC.debt[i];const net=r+s+p+t+d;v+=net;return {w,net,v,r,s,p,t,d};});}
+const BASE=fcPath({receipts:0,suppliers:0,payroll:0,tax:0});
+const lowOf=a=>a.reduce((m,x)=>x.v<m.v?x:m);
+
+/* ---------------- helpers ---------------- */
+const $=s=>document.querySelector(s);
+const f1=v=>Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1});
+const m1=v=>(v<0?'-':'')+f1(v)+'m', aed=v=>'AED '+m1(v), sg=v=>(v>=0?'+':'-')+f1(v), pc=(x,d=0)=>(x*100).toFixed(d)+'%';
+const ASKI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/><path d="M9.5 10a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.6"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/></svg>';
+const ask=q=>`<span class="ask" data-ask="${q.replace(/"/g,'&quot;')}">${ASKI}Ask</span>`;
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(()=>e.style.display='none',2600);}
+function niceAxis(vals,n){let mn=Math.min(0,...vals),mx=Math.max(0,...vals);if(mx>0)mx*=1.04;if(mn<0)mn*=1.04;const raw=(mx-mn)/(n||4),mag=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/mag,step=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*mag;const lo=Math.floor(mn/step+1e-9)*step,hi=Math.ceil(mx/step-1e-9)*step,t=[];for(let v=lo;v<=hi+step/2;v+=step)t.push(Math.abs(v)<1e-9?0:v);return{lo,hi,ticks:t};}
+
+/* ---------------- views ---------------- */
+const VIEWS=[['summary','Summary','p'],['history','History','p'],['movements','Movements','p'],['accounts','Positions','p'],['exceptions','Exceptions','p'],['roadmap','Roadmap items','r']];
+const SUBS=[['outlook','Forecast and what-if'],['steer','Liquidity and yield'],['extras','Events and largest movements'],['ideas','All ideas']];
+const SCOPE={p:['Pilot','In the pilot: position and history'],o:['Extension','Pilot extension: can be added once the pilot runs, quoted separately'],r:['Roadmap','Roadmap: later steps or extra data']};
+function alerts(){
+  const lowB=lowOf(BASE), big=BASE.reduce((m,x)=>x.net<m.net?x:m);
+  const r23=WK.find(w=>w.w==='23 Oct').restr, r30=WK.find(w=>w.w==='30 Oct').restr;
+  return [
+   {ext:1,sev:'warning',t:`Forecast week of ${big.w}: net outflow ${aed(-big.net)}`,s:`illustrative forecast; lowest point ${aed(lowB.v)} in ${lowB.w}`,age:'new',own:'Treasury',type:'forecast'},
+   {sev:'warning',t:'Restricted flag changes from week to week',s:`${aed(r23)} flagged restricted on 23 Oct, ${aed(r30)} on 30 Oct; confirm the definition before restricted cash is shown separately`,age:'new',own:'Treasury',type:'data'},
+   {sev:'warning',t:'Fund positions typed "Other" on 11 Sep',s:'AED 49.3m left out of cash that week; confirm whether they are money market funds',age:'open 7 weeks',own:'Treasury',type:'data'},
+   {sev:'warning',t:`${banks[0].bank} holds ${pc(banks[0].share)} of cash`,s:`top three ${banks.slice(0,3).map(b=>b.bank).join(', ')}: ${pc(banks[0].share+banks[1].share+banks[2].share)}; no counterparty limits in the pilot data`,age:'',own:'Treasury',type:'concentration'},
+   {sev:'info',t:`${zeroPos} positions carry no balance`,s:'confirm whether they stay in the position file',age:'',own:'Treasury',type:'register'},
+   {ext:1,sev:'info',t:`${aed(fdMat.slice(0,4).reduce((a,b)=>a+b,0))} of deposits mature in the next 4 weeks`,s:'roll-over decision before the forecast low point',age:'',own:'Treasury',type:'maturity'},
+   {sev:'ok',t:'Closing cash below buffer, 11 Sep to 09 Oct',s:`${fridaysBelow} Friday closes; resolved 16 Oct by the shareholder cash call`,age:'resolved',own:'Treasury',type:'buffer'}];
+}
+function attHtml(max){return alerts().filter(a=>a.sev!=='ok'&&!a.ext).slice(0,max).map(a=>`<div class="att"><span class="dot ${a.sev==='warning'?'':a.sev}"></span><div><b>${a.t}</b>${a.ext?'<span class="sg">extension</span>':''} <span class="mut">${a.s}${a.age?' · '+(a.age==='new'?'<b style="color:var(--red)">new</b>':a.age):''}</span></div>${ask('Explain: '+a.t)}</div>`).join('');}
+function barsHtml(){const mx=banks[0].aed;return banks.map(b=>`<div class="bar ${state.bank===b.bank?'sel':''}" data-bank="${b.bank}"><span class="lbl">${b.bank}</span><span class="trk"><span class="fill" style="width:${b.aed/mx*100}%"></span></span><span class="v">${f1(b.aed)}</span></div>`).join('');}
+
+function lineChart(opt){
+  const {past,fc,wi,events,W:Wd,H:Ht,id,buf,live,dom}=opt; const L=50,Rr=14,T=16,B=28;
+  const labels=past.map(p=>p.w).concat(fc?fc.map(p=>p.w):[]), n=labels.length;
+  const vals=past.map(p=>p.v).concat(fc?fc.map(p=>p.v):[]).concat(wi?wi.map(p=>p.v):[]).concat(buf?[buf]:[]);
+  const ax=dom||niceAxis(vals,4),X=i=>L+i*(Wd-L-Rr)/(n-1),Y=v=>T+(ax.hi-v)/(ax.hi-ax.lo)*(Ht-T-B);let g='';
+  ax.ticks.forEach(v=>g+=`<line x1="${L}" x2="${Wd-Rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${v===0?'#6f7480':'#e6e9ee'}"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(0)}</text>`);
+  const tn=past.length-1;
+  if(fc){g+=`<rect x="${X(tn)}" y="${T}" width="${Wd-Rr-X(tn)}" height="${Ht-T-B}" fill="var(--wash)" opacity=".8"/><text x="${X(tn)+6}" y="${T+12}" style="font-size:11px">Treasury forecast as provided</text>`;}
+  g+=`<line x1="${X(tn)}" x2="${X(tn)}" y1="${T}" y2="${Ht-B}" stroke="#14202e" stroke-dasharray="3 3" opacity=".5"/><text x="${X(tn)-6}" y="${T+12}" text-anchor="end" style="font-size:11px">today</text>`;
+  if(buf){g+=`<rect x="${L}" y="${Y(buf)}" width="${Wd-L-Rr}" height="${Math.max(0,Y(ax.lo)-Y(buf))}" fill="#b8321f" opacity=".05"/><line x1="${L}" x2="${Wd-Rr}" y1="${Y(buf)}" y2="${Y(buf)}" stroke="#b7791f" stroke-dasharray="4 4"/><text x="${L+4}" y="${Y(buf)-5}" fill="#b7791f">liquidity buffer</text>`;}
+  const CXo=(window.CX&&CX[id]&&CX[id]())||{};
+  if(CXo.band&&buf){/* E2 buffer band: green above the buffer, red below */
+    const pl=past.map((p,i)=>X(i)+','+Y(p.v)).join(' '),bp=`${X(tn)},${Y(buf)} ${X(0)},${Y(buf)}`;
+    g+=`<defs><clipPath id="${id}_ca"><rect x="0" y="0" width="${Wd}" height="${Y(buf)}"/></clipPath><clipPath id="${id}_cb"><rect x="0" y="${Y(buf)}" width="${Wd}" height="${Ht}"/></clipPath></defs>`;
+    g+=`<polygon points="${pl} ${bp}" fill="#2f7d4f" opacity=".14" clip-path="url(#${id}_ca)"/><polygon points="${pl} ${bp}" fill="#b8321f" opacity=".2" clip-path="url(#${id}_cb)"/>`;
+  } else g+=`<polygon points="${X(0)},${Y(Math.max(ax.lo,0))} ${past.map((p,i)=>X(i)+','+Y(p.v)).join(' ')} ${X(tn)},${Y(Math.max(ax.lo,0))}" fill="var(--sand)" opacity=".22"/>`;
+  g+=`<polyline fill="none" stroke="#14202e" stroke-width="2" points="${past.map((p,i)=>X(i)+','+Y(p.v)).join(' ')}"/>`;
+  if(fc)g+=`<polyline fill="none" stroke="#8b909a" stroke-width="2" stroke-dasharray="6 4" points="${[past[tn]].concat(fc).map((p,i)=>X(tn+i)+','+Y(p.v)).join(' ')}"/>`;
+  if(wi&&!live)g+=`<polyline fill="none" stroke="var(--acc)" stroke-width="2.2" points="${[past[tn]].concat(wi).map((p,i)=>X(tn+i)+','+Y(p.v)).join(' ')}"/>`;
+  if(live){g+=`<g id="${id}_wg" style="opacity:0;transition:opacity .45s ease"><polygon id="${id}_wp" points="" opacity=".16"/><polyline id="${id}_wl" fill="none" stroke="var(--acc)" stroke-width="2.4" stroke-linejoin="round" points=""/>${fc.map((p,k)=>`<circle id="${id}_wc${k}" cx="${X(tn+1+k)}" cy="0" r="3.4" fill="var(--acc)" stroke="#fff" stroke-width="1.2"/>`).join('')}<text id="${id}_wd" text-anchor="end" font-weight="600" style="font-size:11.5px"></text></g>`;}
+  past.forEach((p,i)=>{if(buf&&p.v<buf)g+=`<circle cx="${X(i)}" cy="${Y(p.v)}" r="3.5" fill="#b8321f"/>`;});
+  (events||[]).forEach(e=>{const i=past.findIndex(p=>p.w===e.w);if(i<0)return;const col=e.eff>0?'#2f7d4f':e.eff<0?'#b8321f':'#6f7480';g+=`<g><circle cx="${X(i)}" cy="${Y(past[i].v)}" r="9" fill="${col}" stroke="#fff" stroke-width="1.5"/><text x="${X(i)}" y="${Y(past[i].v)+3.5}" text-anchor="middle" style="fill:#fff;font-size:10px;font-weight:700">${e.n}</text></g>`;});
+  (CXo.notes||[]).forEach(nt=>{/* E1 chart notes */const i=past.findIndex(p=>p.w===nt.w);if(i<0)return;const x=X(i),y=Y(past[i].v),up=nt.pos!=='below',ty=up?y-30:y+34,tw=nt.t.length*6.1+14,tx=Math.max(L+2,Math.min(Wd-Rr-tw,x-tw/2));
+    g+=`<line x1="${x}" y1="${y+(up?-5:5)}" x2="${x}" y2="${ty+(up?6:-12)}" stroke="#14202e" stroke-width=".8" opacity=".5"/><rect x="${tx}" y="${ty-12}" width="${tw}" height="18" rx="9" fill="#fff" stroke="${nt.c||'#14202e'}" stroke-width=".9"/><text x="${tx+tw/2}" y="${ty+1}" text-anchor="middle" style="font-size:10.5px;font-weight:600;fill:${nt.c||'#14202e'}">${nt.t}</text>`;});
+  (CXo.flags||[]).forEach(fl=>{/* E7 data-quality marks */const i=past.findIndex(p=>p.w===fl.w);if(i<0)return;const x=X(i),y=Y(past[i].v)+16;g+=`<g><path d="M${x} ${y-7} L${x+7} ${y+5} L${x-7} ${y+5}Z" fill="#b7791f"/><text x="${x}" y="${y+3.5}" text-anchor="middle" style="fill:#fff;font-size:9px;font-weight:700">!</text></g>`;});
+  if(CXo.pick!=null&&CXo.pick<=tn){const x=X(CXo.pick);g+=`<line x1="${x}" x2="${x}" y1="${T}" y2="${Ht-B}" stroke="var(--acc)" stroke-width="1.5" opacity=".55"/>`;}
+  const st=Math.ceil(n/9);labels.forEach((l,i)=>{if(i%st===0||i===n-1)g+=`<text x="${X(i)}" y="${Ht-8}" text-anchor="middle">${l}</text>`;});
+  g+=`<line id="${id}_g" x1="0" x2="0" y1="${T}" y2="${Ht-B}" stroke="#14202e" opacity="0"/>`;
+  const anim={cur:null,raf:0,paint(vals){const q=k=>document.getElementById(id+'_'+k);if(!q('wl'))return;const pts=[past[tn].v].concat(vals).map((v,i)=>X(tn+i)+','+Y(Math.max(ax.lo,Math.min(ax.hi,v)))).join(' ');
+      const bpts=[past[tn].v].concat(fc.map(p=>p.v)).map((v,i)=>X(tn+i)+','+Y(v)).reverse().join(' ');const last=vals[vals.length-1],bl=fc[fc.length-1].v,up=last>=bl;
+      q('wl').setAttribute('points',pts);q('wp').setAttribute('points',pts+' '+bpts);q('wp').setAttribute('fill',up?'#2f7d4f':'#b8321f');
+      vals.forEach((v,k)=>{const c=q('wc'+k);c.setAttribute('cy',Y(Math.max(ax.lo,Math.min(ax.hi,v))));c.setAttribute('fill',buf&&v<buf?'#b8321f':'var(--acc)');});
+      const d=q('wd');d.setAttribute('x',Wd-Rr-2);d.setAttribute('y',Y(last)+(up?-9:17));d.setAttribute('fill',up?'#2f7d4f':'#b8321f');d.textContent=(last-bl>=0?'+':'-')+Math.abs(last-bl).toFixed(0)+'m';},
+    set(vals,active,dur){dur=dur==null?650:dur;cancelAnimationFrame(anim.raf);const g=document.getElementById(id+'_wg');if(g)g.style.opacity=active?1:0;
+      const from=anim.cur||fc.map(p=>p.v),t0=performance.now(),ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+      const fr=now=>{const k=dur?Math.min(1,(now-t0)/dur):1,e=ease(k);anim.cur=from.map((a,i)=>a+(vals[i]-a)*e);anim.paint(anim.cur);if(k<1)anim.raf=requestAnimationFrame(fr);};
+      if(!dur){anim.cur=vals.slice();anim.paint(anim.cur);}else anim.raf=requestAnimationFrame(fr);}};
+  return {anim,svg:`<svg id="${id}" viewBox="0 0 ${Wd} ${Ht}" width="100%">${g}</svg>`,wire(read,idle){const s=$('#'+id),rd=$('#'+read),gl=$('#'+id+'_g');if(!s)return;rd.innerHTML=idle;
+    s.onmousemove=ev=>{const r=s.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*Wd;let i=Math.round((x-L)/((Wd-L-Rr)/(n-1)));i=Math.max(0,Math.min(n-1,i));gl.setAttribute('x1',X(i));gl.setAttribute('x2',X(i));gl.setAttribute('opacity','.3');
+      if(i<=tn){const p=past[i],r0=R.find(r=>r.w===p.w),ev2=(events||[]).find(e=>e.w===p.w);rd.innerHTML=`<b>${p.w}</b>: ${aed(p.v)}${r0?` <span class="mut">(receipts ${f1(r0.r)}, payments ${f1(r0.p)}${r0.f?', financing '+f1(r0.f):''})</span>`:''}${ev2?`<br><span class="mut">#${ev2.n} ${ev2.d}</span>`:''}${buf?` <span class="mut">· headroom ${sg(p.v-buf)}m</span>`:''}${(CXo.flags||[]).filter(fl=>fl.w===p.w).map(fl=>`<br><span style="color:#b7791f">&#9888; ${fl.t}</span>`).join('')}`;}
+      else{const k=i-tn-1,b=fc[k],w2=live?(live.act?{v:live.v[k]}:null):wi&&wi[k];rd.innerHTML=`<b>${b.w}</b>: ${aed(w2?w2.v:b.v)} <span class="mut">${w2?'what-if, against '+aed(b.v)+' as forecast':'forecast as provided, net '+sg(b.net)+'m'}</span>`;}};
+    const mv=s.onmousemove;s.onmousemove=ev=>{mv(ev);tipShow(ev,rd.innerHTML);};/* E9 floating hover card */
+    if(CXo.onPick)s.onclick=ev=>{const r=s.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*Wd;let i=Math.round((x-L)/((Wd-L-Rr)/(n-1)));if(i<=tn)CXo.onPick(i);};/* E4 */
+    if(CXo.onPick)s.style.cursor='pointer';
+    s.onmouseleave=()=>{gl.setAttribute('opacity','0');rd.innerHTML=typeof idle==='function'?idle():idle;tipHide();};}};
+}
+function renderSummary(){
+  const prev=R[R.length-2], lowB=lowOf(BASE);
+  const ch=lineChart({past:R.map(r=>({w:r.w,v:r.c})),W:1000,H:260,id:'sc',buf:BUF/1e6});
+  $('#view').innerHTML=`
+  <div class="eyebrow">As of ${AS_OF} &nbsp;|&nbsp; ${ACC.length} of ${ACC.length} positions reporting &nbsp;|&nbsp; reconciled to the position file</div>
+  <h1 class="hero">${aed(avail)} available liquidity.</h1>
+  <p class="sub">${aed(avail-BUF/1e6)} above the AED 300m liquidity buffer. Cash placed with L'IMAD (${aed(PLACED_SH)}) is shown separately and not counted. ${pc(MIX[12][0])} in current accounts, ${pc(MIX[12][1])} in fixed deposits, ${pc(MIX[12][2])} in money market funds.</p>
+  <p class="sub" style="font-size:13.5px;margin-top:2px">Since ${prev.w}: cash <b class="${LAST.c-prev.c<0?'neg':''}">${sg(LAST.c-prev.c)}m</b>, ${(n=>n+' new alert'+(n===1?'':'s'))(alerts().filter(x=>!x.ext&&x.age==='new').length)}, 1 resolved. <span class="lnk" data-go="exceptions">What changed</span></p>
+  <div class="brief"><div class="tag">Briefing · AI-written, every number checked against the data</div>
+   <p>Since 07 Aug cash rose by ${aed(LAST.c-R[0].c)}: the AED 345.8m shareholder cash call on 16 Oct (per treasury note) covered a net outflow of ${aed(R[0].c-LAST.c+345.8)} over 12 weeks.</p>
+   <p>${fridaysBelow} Friday closes fell below the buffer (11 Sep to 09 Oct), lowest ${aed(Math.min(...R.map(r=>r.c)))} on 09 Oct. Today's view counts ${withMonthEnd}, because it also includes the 30 Sep month-end.</p></div>
+  <div style="margin-top:18px">${ch.svg}<div class="read" id="sread"></div></div>
+  <section><h2>Needs attention</h2>${attHtml(4)}<p class="note" style="margin-top:10px"><span class="lnk" data-go="exceptions">All exceptions</span><span class="mut" style="margin-left:10px">"Ask" hands the question to the assistant with the figures behind it.</span></p></section>
+  <section><div class="cols"><div><h2>Where the cash is</h2>${barsHtml()}<p class="note" style="margin-top:8px">Closing cash by bank, AED m. Click a bank to see its positions.</p></div>
+  <div><h2>Cash by instrument</h2><table><tr><th>AED m</th><th class="n">Now</th><th class="n">4 weeks ago</th><th class="n">Change</th></tr>${[['Current accounts',0],['Fixed deposits',1],['Money market funds',2]].map(([l,k])=>{const a=LAST.c*MIX[12][k],b=R[8].c*MIX[8][k];return `<tr><td>${l}</td><td class="n">${f1(a)}</td><td class="n">${f1(b)}</td><td class="n ${a-b<0?'neg':''}">${sg(a-b)}</td></tr>`;}).join('')}<tr class="tot"><td><b>Cash</b></td><td class="n"><b>${f1(LAST.c)}</b></td><td class="n">${f1(R[8].c)}</td><td class="n">${sg(LAST.c-R[8].c)}</td></tr></table><p class="note" style="margin-top:8px">Want a forecast, yield or maturities here? <span class="lnk" data-go="roadmap">See roadmap items</span></p></div></div></section>`;
+  ch.wire('sread','Closing cash on fixed Fridays, AED m, against the liquidity buffer. Hover for any week.');
+}
+function renderHistory(){
+  const ser=state.hb==='cash'?R.map(r=>({w:r.w,v:r.c})):R.map(r=>({w:r.w,v:r.c*MIX[r.i][{ca:0,fd:1,mmf:2}[state.hb]]}));
+  const ch=lineChart({past:ser,W:760,H:290,id:'hc',buf:state.hb==='cash'?BUF/1e6:null});
+  const ago=[0,1,4,8,12].map(k=>R[12-k]);
+  const rowsT=[['Cash',r=>r.c],['Current accounts',r=>r.c*MIX[r.i][0]],['Fixed deposits',r=>r.c*MIX[r.i][1]],['Money market funds',r=>r.c*MIX[r.i][2]]];
+  $('#view').innerHTML=`<div class="eyebrow">The past 13 weeks from your position file. Closing positions on fixed Fridays; month-end positions (31 Aug, 30 Sep, 31 Oct) kept separately. As of ${AS_OF}.</div>
+  <h1 class="hero" style="font-size:26px;margin:0 0 8px">Cash ended ${aed(LAST.c-R[0].c)} higher than on 07 Aug, carried by the AED 345.8m shareholder cash call.</h1>
+  <p class="sub" style="margin:2px 0">Before it, cash fell from ${aed(R[0].c)} to a low of ${aed(Math.min(...R.map(r=>r.c)))} on 09 Oct.</p>
+  <div class="presets" style="margin:14px 0 6px">${[['cash','Cash'],['ca','Current accounts'],['fd','Fixed deposits'],['mmf','Money market funds']].map(b=>`<span class="chip hb ${state.hb===b[0]?'on':''}" data-hb="${b[0]}">${b[1]}</span>`).join('')}${ask('What drove the biggest moves in cash over the last 13 weeks?')}</div>
+  ${ch.svg}<div class="read" id="hread"></div>
+  <section><h2>Then and now</h2><table><tr><th>AED m</th><th class="n">Now</th><th class="n">1 week ago</th><th class="n">4 weeks</th><th class="n">8 weeks</th><th class="n">12 weeks</th><th class="n">Change vs 12 weeks</th></tr>${rowsT.map((t,k)=>{const v=ago.map(t[1]);return `<tr class="${k===0?'tot':''}"><td>${k===0?'<b>'+t[0]+'</b>':t[0]}</td>${v.map(x=>`<td class="n">${f1(x)}</td>`).join('')}<td class="n ${v[0]-v[4]<0?'neg':''}">${sg(v[0]-v[4])}</td></tr>`;}).join('')}</table></section>
+  <section><h2>Weekly bridge (AED m)</h2><table><tr><th>Week</th><th class="n">Opening</th><th class="n">Receipts</th><th class="n">Payments</th><th class="n">Financing</th><th class="n">FX</th><th class="n">Closing</th></tr>${R.map(r=>`<tr><td>${r.w}</td><td class="n">${f1(r.o)}</td><td class="n">${f1(r.r)}</td><td class="n neg">-${f1(r.p)}</td><td class="n">${r.f?f1(r.f):'<span class="mut">-</span>'}</td><td class="n">${sg(r.x)}</td><td class="n ${r.c<BUF/1e6?'neg':''}"><b>${f1(r.c)}</b></td></tr>`).join('')}</table><p class="note" style="margin-top:8px">Opening, closing and FX are from your position file; the receipts and payments split is illustrative until the TMS transaction export is connected. FX is the translation of EUR and AUD balances; USD is pegged.</p></section>`;
+  fold({'Then and now':['Then and now','today against 1, 4, 8 and 12 weeks ago'],'Weekly bridge':['Weekly bridge','opening to closing, every week']});
+  ch.wire('hread','Hover the chart for any week.');
+  document.querySelectorAll('.hb').forEach(c=>c.onclick=()=>{state.hb=c.dataset.hb;render();});
+}
+function renderMovements(){
+  const RM=R.slice(1);
+  const w=1000,h=300,L=46,Rr=10,T=12,B=28,n=RM.length,bw=(w-L-Rr)/n;
+  const up=RM.map(r=>cats.reduce((a,c)=>a+Math.max(0,ACT[c][r.i]),0)),dn=RM.map(r=>cats.reduce((a,c)=>a+Math.min(0,ACT[c][r.i]),0));
+  const ax=niceAxis(up.concat(dn),5),Y=v=>T+(ax.hi-v)/(ax.hi-ax.lo)*(h-T-B);let g='';
+  ax.ticks.forEach(v=>g+=`<line x1="${L}" x2="${w-Rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${v===0?'#6f7480':'#e6e9ee'}"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v}</text>`);
+  RM.forEach((r,i)=>{let u=0,d=0;const x=L+i*bw+bw*.22,ww=bw*.56;CATS.forEach(([c,col])=>{const v=ACT[c][r.i];if(v>0){g+=`<rect x="${x}" y="${Y(u+v)}" width="${ww}" height="${Y(u)-Y(u+v)}" fill="${col}"><title>${r.w} ${c}: ${sg(v)}m</title></rect>`;u+=v}else if(v<0){g+=`<rect x="${x}" y="${Y(d)}" width="${ww}" height="${Y(d+v)-Y(d)}" fill="${col}"><title>${r.w} ${c}: ${sg(v)}m</title></rect>`;d+=v}});
+   const net=r.r-r.p;g+=`<line x1="${x-3}" x2="${x+ww+3}" y1="${Y(net)}" y2="${Y(net)}" stroke="#14202e" stroke-width="2.4"><title>${r.w} operating net ${sg(net)}m</title></line><text x="${x+ww/2}" y="${h-8}" text-anchor="middle">${r.w}</text>`;});
+  const totals=cats.map(c=>[c,RM.reduce((a,r)=>a+ACT[c][r.i],0)]),gin=totals.filter(t=>t[1]>0).reduce((a,t)=>a+t[1],0),gout=-totals.filter(t=>t[1]<0).reduce((a,t)=>a+t[1],0);
+  $('#view').innerHTML=`<div class="eyebrow">Receipts and payments, 12 weeks to 30 Oct. <b>Illustrative split:</b> weekly net change ties to your position file; the categories come from the TMS transaction export once it is connected. Transfers between own accounts and placements are excluded; the shareholder cash call is shown as financing.</div>
+  <h1 class="hero" style="font-size:26px;margin:0 0 8px">Payments ran ${aed(gout-gin)} ahead of receipts, ${aed((gout-gin)/12)} a week on average (illustrative split).</h1>
+  <p class="sub">Suppliers and contractors are ${pc(-totals[2][1]/gout)} of payments; payroll lands in the last week of each month.</p>
+  <div style="margin-top:14px"><svg viewBox="0 0 ${w} ${h}" width="100%">${g}</svg><div class="presets" style="font-size:12px;color:var(--mut)">${CATS.map(([c,col])=>`<span><i style="display:inline-block;width:10px;height:10px;background:${col};margin-right:5px;vertical-align:-1px"></i>${c}</span>`).join('')}<span><i style="display:inline-block;width:14px;height:2px;background:#14202e;margin-right:5px;vertical-align:3px"></i>Operating net</span></div></div>
+  <section><div class="cols"><div><h2>By category, 12 weeks (AED m)</h2><table><tr><th>Category</th><th class="n">Total</th><th class="n">Per week</th><th class="n">Share</th></tr>${totals.map(t=>`<tr><td>${t[0]}</td><td class="n ${t[1]<0?'neg':''}">${sg(t[1])}</td><td class="n">${sg(t[1]/12)}</td><td class="n mut">${pc(Math.abs(t[1])/(t[1]>0?gin:gout))}</td></tr>`).join('')}<tr class="tot"><td><b>Operating net</b></td><td class="n neg"><b>${sg(gin-gout)}</b></td><td class="n">${sg((gin-gout)/12)}</td><td></td></tr></table><p class="note" style="margin-top:8px">Categories come from agreed rules on the bank narrative. Anything the rules cannot place stays "Uncategorised" and is listed for review, never guessed.</p></div>
+  <div><h2>Receipts against payments</h2><table><tr><th>AED m</th><th class="n">Receipts</th><th class="n">Payments</th><th class="n">Net</th></tr>${RM.slice(-6).map(r=>`<tr><td>${r.w}</td><td class="n">${f1(r.r)}</td><td class="n neg">-${f1(r.p)}</td><td class="n ${r.r-r.p<0?'neg':''}">${sg(r.r-r.p)}</td></tr>`).join('')}</table><p class="note" style="margin-top:8px">Last six weeks, operating flows only; financing shown separately in History.</p></div></div></section>`;
+}
+let OUT_DOM=null;
+function outDom(){if(OUT_DOM)return OUT_DOM;const vals=R.slice(-6).map(r=>r.c).concat(BASE.map(b=>b.v),[BUF/1e6]);
+  for(let m=0;m<16;m++){const lv={};LEV.forEach((l,i)=>lv[l[0]]=((m>>i)&1?l[2]:-l[2])*0.6);fcPath(lv).forEach(x=>vals.push(x.v));}
+  return OUT_DOM=niceAxis(vals,4);}
+function outlookText(){
+  const lv=state.lv,wi=fcPath(lv),act=LEV.some(l=>lv[l[0]]),lo=lowOf(wi),lb=lowOf(BASE),below=wi.filter(x=>x.v<BUF/1e6);
+  const word=(k,v)=>({receipts:'receipts',suppliers:'supplier payments',payroll:'payroll',tax:'tax and fees'}[k])+' '+Math.abs(v)+'% '+(v>0?'higher':'lower');
+  const lt=LEV.filter(l=>lv[l[0]]).map(l=>word(l[0],lv[l[0]])).join(' and ');
+  return {wi,act,
+   hero:`${below.length?`Cash falls below the buffer in ${below.length} week${below.length>1?'s':''}`:'Cash stays above the buffer for 8 weeks'}${act?' in this what-if':''}.`,
+   sub:act?`What-if: ${lt}. Lowest point ${aed(lo.v)} in the week of ${lo.w}, against ${aed(lb.v)} as forecast; position on ${wi[7].w} changes by <b class="${wi[7].v-BASE[7].v<0?'neg':''}">${sg(wi[7].v-BASE[7].v)}m</b>.`:`Lowest point ${aed(lb.v)} in the week of ${lb.w}. Move a slider to test a change against the forecast as provided.`,
+   tbl:`<tr><th>Week</th>${act?'<th class="n">As forecast</th><th class="n">What-if</th><th class="n">Change</th>':'<th class="n">Receipts</th><th class="n">Payments</th><th class="n">Closing</th>'}</tr>${wi.map((x,i)=>act?`<tr><td>${x.w}</td><td class="n">${f1(BASE[i].v)}</td><td class="n ${x.v<BUF/1e6?'neg':''}">${f1(x.v)}</td><td class="n ${x.v-BASE[i].v<0?'neg':''}">${sg(x.v-BASE[i].v)}</td></tr>`:`<tr><td>${x.w}</td><td class="n">${f1(x.r)}</td><td class="n neg">${f1(x.s+x.p+x.t+x.d)}</td><td class="n ${x.v<BUF/1e6?'neg':''}"><b>${f1(x.v)}</b></td></tr>`).join('')}`};
+}
+const lvLab=v=>v>0?v+'% higher':v<0?(-v)+'% lower':'as forecast';
+function renderOutlook(){
+  const o=outlookText(), live={act:o.act,v:o.wi.map(x=>x.v)};
+  const ch=lineChart({past:R.slice(-6).map(r=>({w:r.w,v:r.c})),fc:BASE.map(b=>({w:b.w,v:b.v,net:b.net})),live,dom:outDom(),W:520,H:250,id:'oc',buf:BUF/1e6});
+  $('#view').innerHTML=`<div class="eyebrow">Treasury's 8-week forecast (illustrative figures) laid over today's cash from your position file. Not a forecast model; what-ifs are never stored.</div>
+  <h1 class="hero" id="o_hero" style="font-size:34px;margin:0">${o.hero}</h1>
+  <p class="sub" id="o_sub" style="margin-top:4px;min-height:46px">${o.sub}</p>
+  <div class="cols" style="margin-top:18px"><div>
+   <div style="font-size:13px;margin:0 0 6px"><b>What-if</b> <span class="mut">Drag a slider; the forecast as provided does not change.</span></div>
+   ${LEV.map(l=>`<div class="scen"><label>${l[1]}: <b id="lvl_${l[0]}">${lvLab(state.lv[l[0]])}</b></label><input type="range" data-lv="${l[0]}" min="-${l[2]}" max="${l[2]}" step="5" value="${state.lv[l[0]]}"></div>`).join('')}
+   <div class="presets"><span class="chip" data-preset='{"receipts":-15}'>Receipts -15%</span><span class="chip" data-preset='{"receipts":-10,"suppliers":10}'>Late collections, higher spend</span><span class="chip" data-preset='{"suppliers":-10}'>Spend -10%</span><span class="chip" data-preset='{}'>Reset</span></div>
+   ${ch.svg}<div class="read" id="oread"></div><div class="legend" style="font-size:11.5px;color:var(--mut);margin-top:2px"><span style="display:inline-block;width:18px;border-top:2px dashed #8b909a;vertical-align:3px;margin-right:5px"></span>Forecast as provided <span style="display:inline-block;width:18px;border-top:2.4px solid var(--acc);vertical-align:3px;margin:0 5px 0 14px"></span>What-if</div></div>
+   <div><h2>Week by week (AED m)</h2><table id="o_tbl">${o.tbl}</table>
+   <h2 style="margin-top:22px">How reliable is the forecast?</h2><p class="note">Forecast against actual starts with the first saved forecast. From the second week of the pilot each week shows how far the forecast was off, and after a few weeks the accuracy and whether it runs optimistic.</p></div></div>`;
+  const idle=()=>live.act?'Blue: what-if, shaded against the forecast as provided. Hover for any week.':'Hover for any week. Dashed: forecast as provided.';
+  ch.wire('oread',idle); ch.anim.set(live.v,live.act,0);
+  const upd=()=>{const n=outlookText();live.act=n.act;live.v=n.wi.map(x=>x.v);$('#o_hero').innerHTML=n.hero;$('#o_sub').innerHTML=n.sub;$('#o_tbl').innerHTML=n.tbl;
+    LEV.forEach(l=>{const b=$('#lvl_'+l[0]);if(b)b.textContent=lvLab(state.lv[l[0]]);const sl=document.querySelector(`[data-lv="${l[0]}"]`);if(sl)sl.value=state.lv[l[0]];});
+    ch.anim.set(live.v,live.act);$('#oread').innerHTML=idle();};
+  document.querySelectorAll('[data-lv]').forEach(s=>s.oninput=()=>{state.lv[s.dataset.lv]=+s.value;upd();});
+  document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{Object.keys(state.lv).forEach(k=>state.lv[k]=0);Object.assign(state.lv,JSON.parse(b.dataset.preset));upd();});
+  wireCommon();
+}
+function renderSteer(){
+  const sens=[['Receipts -10%',{receipts:-10}],['Receipts +10%',{receipts:10}],['Supplier payments +10%',{suppliers:10}],['Supplier payments -10%',{suppliers:-10}],['Payroll +10%',{payroll:10}],['Tax and fees +10%',{tax:10}]].map(([l,o])=>{const lv=Object.assign({receipts:0,suppliers:0,payroll:0,tax:0},o);return {l,d:lowOf(fcPath(lv)).v-lowOf(BASE).v};});
+  const mx=Math.max(...sens.map(s=>Math.abs(s.d)));
+  const yser=R.map(r=>wy*YREL[r.i]);
+  const yw=420,yh=170,L=40,T=12,B=24,yx=i=>L+i*(yw-L-10)/12,yy=v=>T+(.03-v)/(.03-.015)*(yh-T-B);
+  let yg='';[.015,.02,.025,.03].forEach(v=>yg+=`<line x1="${L}" x2="${yw-10}" y1="${yy(v)}" y2="${yy(v)}" stroke="#e6e9ee"/><text x="${L-5}" y="${yy(v)+4}" text-anchor="end">${(v*100).toFixed(1)}%</text>`);
+  yg+=`<polyline fill="none" stroke="#14202e" stroke-width="2" points="${yser.map((v,i)=>yx(i)+','+yy(v)).join(' ')}"/>`;R.forEach((r,i)=>{if(i%3===0||i===12)yg+=`<text x="${yx(i)}" y="${yh-6}" text-anchor="middle">${r.w}</text>`;});
+  const fdl=ACC.filter(a=>a.type==='Fixed deposit').sort((a,b)=>new Date(a.mat)-new Date(b.mat));
+  $('#view').innerHTML=`<div class="eyebrow">Liquidity and yield for the treasury and CFO conversation. Built only from the position file and the treasury forecast. As of ${AS_OF}.</div>
+  <h1 class="hero" style="font-size:28px">${pc(wy,2)} balance-weighted yield, about ${aed(LAST.c*wy)} a year at today's balances.</h1>
+  <p class="sub" style="margin:4px 0">${idleNow<1?'Almost all current account balances earn interest, so there is no idle cash above the operating minimum':aed(idleNow)+' sits in non-interest current accounts above the operating minimum'}; ${aed(fdMat.slice(0,4).reduce((a,b)=>a+b,0))} of deposits mature in the next 4 weeks.</p>
+  <section><h2>Liquidity</h2><div class="stats">
+   <div class="stat"><div class="l">Available cash</div><div class="n1">${aed(avail)}</div><div class="s">Current accounts, deposits and funds; L'IMAD placement excluded</div></div>
+   <div class="stat"><div class="l">Headroom over buffer</div><div class="n1">${aed(avail-BUF/1e6)}</div><div class="s">Buffer AED 300m, set by treasury</div></div>
+   <div class="stat"><div class="l">Forecast low point</div><div class="n1">${aed(lowOf(BASE).v)}</div><div class="s">Week of ${lowOf(BASE).w}, forecast as provided</div></div>
+   <div class="stat"><div class="l">Idle cash <span class="sg">extension</span></div><div class="n1">${aed(idleNow)}</div><div class="s">Non-interest balances above AED 40m minimum (assumption)</div></div></div></section>
+  <section><h2>What moves the 8-week low point most <span class="sg">extension</span></h2>${sens.map(s=>`<div class="sbar"><span>${s.l}</span><span class="trk"><span class="fill" style="width:${(Math.abs(s.d)/mx*100).toFixed(1)}%;background:${s.d>=0?'#2f7d4f':'#b8321f'}"></span></span><span class="n ${s.d<0?'neg':''}">${sg(s.d)}m</span></div>`).join('')}<p class="note" style="margin-top:6px">Change in the lowest forecast balance against the forecast as provided. ${ask('Which lever moves our 8-week low point most?')}</p></section>
+  <section><div class="cols"><div><h2>Yield trend <span class="sg">extension</span></h2><svg viewBox="0 0 ${yw} ${yh}" width="100%">${yg}</svg><p class="note">Balance-weighted yield per week. The dip on 16 Oct is the shareholder funding landing in current accounts before placement.</p></div>
+  <div><h2>Deposit maturities</h2><table><tr><th>Matures</th><th>Bank</th><th class="n">Yield</th><th class="n">AED m</th></tr>${fdl.map(a=>`<tr><td>${a.mat}</td><td>${a.bank}</td><td class="n">${pc(a.yld,2)}</td><td class="n">${f1(a.aed)}</td></tr>`).join('')}</table><p class="note" style="margin-top:8px">Forecast low point: week of ${lowOf(BASE).w}. Maturities before it can fund it without breaking a deposit.</p></div></div></section>
+  <section><div class="cols"><div><h2>Where the cash sits</h2>${banks.map(b=>`<div class="sbar"><span>${b.bank}</span><span class="trk"><span class="fill" style="width:${(b.share*100).toFixed(1)}%;background:var(--acc)"></span></span><span class="n">${pc(b.share)} · ${aed(b.aed)}</span></div>`).join('')}<p class="note">${pc(banks[0].share+banks[1].share+banks[2].share)} sits with the top three. No counterparty limits are in the pilot data, so this is concentration, not limit use.</p></div>
+  <div><h2>Currency</h2>${ccys.map(c=>`<div class="sbar"><span>${c.ccy}</span><span class="trk"><span class="fill" style="width:${(c.share*100).toFixed(1)}%;background:#6b7a8f"></span></span><span class="n">${pc(c.share)} · ${aed(c.aed)}</span></div>`).join('')}<p class="note">USD is pegged; EUR and AUD balances drive the FX line in the weekly bridge.</p></div></div></section>
+  <section><h2>Assumptions behind these numbers</h2><p class="note">Yields are as recorded in the position file. Idle cash uses an operating minimum of AED 40m, to be set by treasury. The forecast is treasury's own, as provided. Cash placed with L'IMAD is excluded from available liquidity, as in your current report. The restricted flag in the position file is shown on Positions but not used until its definition is confirmed.</p></section>`;
+  fold({'Where the cash sits':['Banks and currencies','concentration'],'Assumptions':['Assumptions behind these numbers','read before quoting']});
+}
+function renderExceptions(){
+  const A=alerts().filter(a=>!a.ext);
+  $('#view').innerHTML=`<div class="eyebrow">Exceptions and data checks for this run. Alerts keep their age and owner until resolved; acknowledgements are recorded with name and note.</div>
+  <h1 class="hero" style="font-size:30px">${A.filter(a=>a.sev==='warning').length} items need a look; cash ties to your current view for every Friday.</h1>
+  <section><h2>Alerts</h2><table><tr><th></th><th>Alert</th><th>Status</th><th>Owner</th><th></th></tr>${A.map(a=>`<tr><td><span class="dot ${a.sev==='warning'?'':a.sev}"></span></td><td><b>${a.t}</b>${a.ext?'<span class="sg">extension</span>':''}<br><span class="mut" style="font-size:12px">${a.s}</span></td><td>${a.age==='new'?'<b style="color:var(--red)">new</b>':a.age||'<span class="mut">info</span>'}</td><td>${a.own}</td><td>${a.sev!=='ok'?ask('Explain: '+a.t):''}</td></tr>`).join('')}</table></section>
+  <section><h2>Data checks</h2><table>${[['Cash = current accounts + fixed deposits + money market funds, L\'IMAD excluded; matches your current view for every Friday','13 of 13',1],['Weeks on fixed Fridays; month-end positions (31 Aug, 30 Sep, 31 Oct) stored separately','pass',1],['Every position typed as current account, deposit or fund','12 of 13 weeks',0],['Restricted flag consistent from week to week','to confirm',0],['FX rates present for every non-AED position','pass',1],['Briefing numbers match the calculated data','pass',1]].map(c=>`<tr><td><span class="dot ${c[2]?'ok':''}"></span></td><td>${c[0]}</td><td class="n ${c[2]?'pos':''}">${c[1]}</td></tr>`).join('')}</table></section>
+  <section><h2>Sources</h2><table><tr><th>Source</th><th>Content</th><th>Latest</th><th>Mapping</th></tr><tr><td>Weekly position file</td><td>Balances per position</td><td>${AS_OF}</td><td>approved</td></tr><tr><td>TMS bank transactions</td><td>Receipts and payments, narratives</td><td>${AS_OF}</td><td>approved</td></tr></table><p class="note" style="margin-top:8px">Each source is read through a data mapping that treasury approves before first use. Everything is read-only.</p></section>`;
+}
+function renderAccounts(){
+  const q=state.q.toLowerCase(),rows=ACC.filter(a=>(!state.bank||a.bank===state.bank)&&(!q||(a.bank+a.type+a.ccy).toLowerCase().includes(q))).sort((a,b)=>b.aed-a.aed);
+  $('#view').innerHTML=`<div class="eyebrow">All positions at ${AS_OF}. Account numbers masked.</div>
+  <h1 class="hero" style="font-size:30px">${ACC.length} positions across ${banks.length} banks and fund providers.</h1>
+  <p style="margin:10px 0"><input type="text" id="q" placeholder="Filter by bank, type or currency" value="${state.q}"></p>
+  <table><tr><th>Bank</th><th>Type</th><th>Account</th><th>Ccy</th><th class="n">Yield</th><th>Matures</th><th class="n">AED m</th></tr>${rows.map(a=>`<tr><td>${a.bank}</td><td>${a.type}${a.restr?' <span class="tag">restricted</span>':''}</td><td class="mut">${a.id}</td><td>${a.ccy}</td><td class="n">${a.yld?pc(a.yld,2):'<span class="mut">0.00%</span>'}</td><td>${a.mat||'<span class="mut">-</span>'}</td><td class="n">${f1(a.aed)}</td></tr>`).join('')}<tr class="tot"><td colspan="6"><b>Total</b></td><td class="n"><b>${f1(rows.reduce((s,a)=>s+a.aed,0))}</b></td></tr></table>`;
+  const i=$('#q');i.oninput=()=>{state.q=i.value;const p=i.selectionStart;renderAccounts();wireCommon();const j=$('#q');j.focus();j.setSelectionRange(p,p);};
+}
+function renderIdeas(){
+  const I=[['t1','Position file','Headroom over buffer as a trend','Headroom each week rather than a breach flag, with the forecast low point.','Shows how close cash runs to the buffer, not only whether it breached.'],
+  ['t1','Position file','Balance-weighted yield and interest run-rate','Weighted yield by instrument and bank, and annualised interest at current balances.','The position file already holds yields per account; this turns them into a weekly management figure.'],
+  ['t1','Position file','Idle cash','Non-interest balances above an operating minimum treasury sets.','Points to cash that could be placed, on a threshold treasury owns.'],
+  ['t1','Position file','Maturities against the forecast low point','Deposits maturing in the next 8 weeks next to the lowest forecast balance.','Supports the roll-over or keep-on-call decision.'],
+  ['t1','Position file','Weekly bridge with FX separated','Opening to closing with the EUR and AUD translation effect on its own line.','Stops FX being read as cash flow.'],
+  ['t1','Position file','Then and now','Today against 1, 4, 8 and 12 weeks ago by instrument.','A quick answer to "how are we different from last quarter?".'],
+  ['t2','TMS transactions','Receipts and payments by category','Rule-based categories from bank narratives; uncategorised lines listed.','A factual first cut before the CAPEX, OPEX and payroll work in step 2.'],
+  ['t2','TMS transactions','Largest movements with source','Every transaction above a threshold, traced to file and row.','Answers "what was that?" without digging.'],
+  ['t2','TMS transactions','Forecast against actual','Accuracy and bias once weekly forecasts are saved.','Builds the evidence base for the 13-week forecast in step 3.'],
+  ['t2','TMS transactions','What-if and sensitivity on the outlook','Receipts, supplier payments, payroll and tax up or down; which lever moves the low point most.','A quick stress view for management, e.g. late collections.'],
+  ['t3','Extra data','Bank exposure against limits','Cash and deposits per bank against approved counterparty limits.','Needs the limits, which the TMS can hold after Phase 3.'],
+  ['t3','Extra data','CAPEX, OPEX, payroll drill-down and 13-week forecast','Category drill-down and a rolling 13-week forecast from TMS and Oracle data.','Steps 2 and 3 of the plan; scoped after the pilot.']];
+  $('#view').innerHTML=`<div class="eyebrow">Proposals for discussion, beyond today's report. Sorted by the data each one needs.</div>
+  <h1 class="hero" style="font-size:30px">12 analytics we suggest adding.</h1>
+  <p class="sub"><span class="need t1">Position file</span> can be built from the weekly file treasury already produces. <span class="need t2">TMS transactions</span> needs the TMS bank transaction export (Standard version). <span class="need t3">Extra data</span> sits in the roadmap.</p>
+  <section>${I.map(x=>`<div class="idea"><div><span class="need ${x[0]}">${x[1]}</span></div><div><h3>${x[2]}</h3><p>${x[3]}</p><div class="why">${x[4]}</div></div></div>`).join('')}</section>`;
+}
+function fold(map){document.querySelectorAll('#view > section').forEach(sec=>{const h=sec.querySelector('h2');if(!h)return;const key=Object.keys(map).find(k=>h.textContent.trim().startsWith(k));if(!key)return;const d=document.createElement('details');d.className='fold';const [t,hint]=map[key];d.innerHTML='<summary>'+t+' <span class="mut">'+hint+'</span></summary><div class="fb"></div>';const fb=d.querySelector('.fb');h.remove();Array.from(sec.childNodes).forEach(n=>fb.appendChild(n));sec.replaceWith(d);});}
+function wireCommon(){
+  document.querySelectorAll('[data-go]').forEach(e=>e.onclick=()=>{state.view=e.dataset.go;render();window.scrollTo(0,0);});
+  document.querySelectorAll('[data-bank]').forEach(e=>e.onclick=()=>{state.bank=state.bank===e.dataset.bank?null:e.dataset.bank;state.view='accounts';render();});
+  document.querySelectorAll('[data-ask]').forEach(e=>e.onclick=()=>{try{navigator.clipboard.writeText(e.dataset.ask)}catch(x){}toast('Question copied for the assistant: '+e.dataset.ask);});
+}
+function renderExtras(){
+  $('#view').innerHTML=`<div class="eyebrow">Explaining the big moves: a treasury event log on the history chart, and every large transaction traced to its source.</div>
+  <h1 class="hero" style="font-size:26px;margin:0 0 8px">Five logged events: one cash call, one data issue and three moves between instruments.</h1>
+  ${lineChart({past:R.map(r=>({w:r.w,v:r.c})),events:EVENTS,W:1000,H:260,id:'xc',buf:BUF/1e6}).svg}
+  <section><h2>Event log</h2><table><tr><th>#</th><th>Week</th><th>Type</th><th>Event</th><th class="n">Cash effect</th></tr>${EVENTS.map(e=>`<tr><td>${e.n}</td><td>${e.w}</td><td><span class="tag">${e.type}</span></td><td>${e.d}</td><td class="n ${e.eff<0?'neg':''}">${e.eff?sg(e.eff):'<span class="mut">-</span>'}</td></tr>`).join('')}</table><p class="note" style="margin-top:8px">Maintained by treasury, one line per event. Moves are explained only by logged events and actual flows.</p></section>
+  <section><h2>Largest movements</h2><table><tr><th>Week</th><th>Narrative</th><th>Category</th><th class="n">AED m</th><th>Source</th></tr>${BIG.map(b=>`<tr><td>${b[0]}</td><td><span style="font-family:Consolas,monospace;font-size:12px">${b[1]}</span></td><td>${b[2]}</td><td class="n ${b[3]<0?'neg':''}">${sg(b[3])}</td><td class="mut">${b[4]}</td></tr>`).join('')}</table><p class="note" style="margin-top:8px">Single transactions above AED 25m, each traced to the source file and row. Illustrative until the TMS transaction export is connected.</p></section>`;
+}
+function renderRoadmap(){
+  ({outlook:renderOutlook,steer:renderSteer,extras:renderExtras,ideas:renderIdeas})[state.sub]();
+  $('#view').insertAdjacentHTML('afterbegin',`<div class="rmbar"><div><span class="sc r">Not in pilot</span> <b>What the pilot could grow into.</b> <span class="mut">Mockups for discussion: each item is scoped and quoted separately once the pilot runs.</span></div><div class="presets" style="margin:10px 0 0">${SUBS.map(s=>`<span class="chip ${state.sub===s[0]?'on':''}" data-sub="${s[0]}">${s[1]}</span>`).join('')}</div></div>`);
+  document.querySelectorAll('[data-sub]').forEach(c=>c.onclick=()=>{state.sub=c.dataset.sub;renderRoadmap();wireCommon();});
+}
+function render(){
+  $('#views').innerHTML=VIEWS.map(v=>`<span data-view="${v[0]}" class="${state.view===v[0]?'on':''}">${v[1]}${v[2]==='r'?'<i class="sc r">Not in pilot</i>':''}</span>`).join('');
+  $('#scopebar').innerHTML='';
+  document.querySelectorAll('#views span').forEach(s=>s.onclick=()=>{state.view=s.dataset.view;render();window.scrollTo(0,0);});
+  $('#asof').textContent='As of '+AS_OF;
+  $('#focus').innerHTML=state.bank?`<span class="focus">Focus: ${state.bank} <b id="unf">×</b></span>`:'';
+  const u=$('#unf');if(u)u.onclick=()=>{state.bank=null;render();};
+  ({summary:renderSummary,history:renderHistory,movements:renderMovements,exceptions:renderExceptions,accounts:renderAccounts,roadmap:renderRoadmap})[state.view]();
+  wireCommon();
+}
+$('#foot').textContent='Mockup of the HTML dashboard the skill produces each run. Balances, composition, banks, currencies, yields and maturities come from your weekly position file (Fridays 07 Aug to 30 Oct 2026), aggregated without account numbers. The receipts and payments split, the forecast and the largest movements are illustrative until the TMS transaction export and forecast template are connected. The pilot covers position and history (Summary to Exceptions); the Roadmap items tab shows what it could grow into.';
+render();
+
+/* ===== chart animation (animated copy): each chart builds up once: on tab open if visible, otherwise when first scrolled into view; never on hover; text and layout do not move ===== */
+(function(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('anim-on');io.unobserve(e.target);}}),{threshold:.25}):null;
+  function once(el){if(io)io.observe(el);else requestAnimationFrame(()=>el.classList.add('anim-on'));}
+  function prep(svg){
+    if(svg.dataset.anim)return;svg.dataset.anim=1;
+    svg.querySelectorAll('polyline').forEach(p=>{if((p.id||'').endsWith('_wl'))return;if(p.getAttribute('stroke-dasharray'))return;try{p.style.setProperty('--len',p.getTotalLength());p.classList.add('a-line');}catch(e){}});
+    svg.querySelectorAll('polygon').forEach(p=>{if(!(p.id||'').endsWith('_wp'))p.classList.add('a-fade');});
+    svg.querySelectorAll('circle').forEach((c,k)=>{if((c.id||'').includes('_wc'))return;c.classList.add('a-pop');c.style.animationDelay=(0.35+k*0.035)+'s';});
+    const zero=svg.querySelector('line[stroke="#6f7480"]'),zy=zero?+zero.getAttribute('y1'):null;
+    svg.querySelectorAll('rect').forEach(r=>{if(!r.querySelector('title'))return;const y=+r.getAttribute('y'),h=+r.getAttribute('height');
+      r.classList.add('a-grow');r.style.transformOrigin=(zy==null||Math.abs(y+h-zy)<1)?'center bottom':'center top';r.style.animationDelay=(+r.getAttribute('x')/(svg.viewBox.baseVal.width||1000)*0.5)+'s';});
+    once(svg);
+  }
+  function prepBars(box){if(box.dataset.anim)return;box.dataset.anim=1;box.classList.add('anim-bars');once(box);}
+  function scan(){const v=document.getElementById('view');if(!v)return;v.querySelectorAll('svg[viewBox]').forEach(prep);
+    const boxes=new Set();v.querySelectorAll('.bar, .sbar').forEach(b=>boxes.add(b.parentElement));boxes.forEach(prepBars);}
+  new MutationObserver(scan).observe(document.getElementById('view'),{childList:true,subtree:true});
+  scan();
+})();
+
+/* ===== Promoted from experiment: E1, E2, E4, E5, E6, E8, E9a, E9b, E9c, E10 ===== */
+const BANKW={"ADCB": {"ca": [0.03, 0.03, 0.03, 0.03, 0.03, 0.05, 0.04, 0.07, 1.5, 1.49, 1.5, 0.07, 0.07], "fd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 55.09, 55.09], "mmf": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "BNP": {"ca": [0.03, 0.03, 0.03, 0.03, 0.05, 0.05, 0.05, 0.05, 0.06, 0.06, 0.06, 0.06, 0.08], "fd": [223.62, 172.08, 103.1, 82.2, 82.25, 82.37, 82.42, 82.47, 82.53, 82.58, 82.64, 192.91, 174.54], "mmf": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "FAB": {"ca": [6.3, 15.93, 4.07, 9.37, 42.98, 24.43, 17.65, 16.34, 92.25, 19.32, 370.47, 29.51, 33.16], "fd": [0.0, 0.0, 69.39, 64.37, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mmf": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "HSBC": {"ca": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "fd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mmf": [66.69, 72.27, 72.18, 59.79, 60.09, 0.0, 48.95, 35.94, 60.63, 38.48, 33.07, 33.07, 51.26]}, "Invesco": {"ca": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "fd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mmf": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "JPM": {"ca": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "fd": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "mmf": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "KFH": {"ca": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "fd": [130.0, 144.69, 144.77, 144.77, 144.77, 144.77, 144.84, 134.78, 24.78, 24.78, 24.78, 161.59, 161.59], "mmf": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}};
+const BK=Object.keys(BANKW).map(b=>({bank:b,tot:W.map((w,i)=>BANKW[b].ca[i]+BANKW[b].fd[i]+BANKW[b].mmf[i])}));
+state.cmp=1; state.pick=12;
+/* E9 floating hover card */
+const TT=document.createElement('div');TT.id='ttip';document.body.appendChild(TT);
+function tipShow(ev,h){TT.innerHTML=h;TT.style.opacity=1;const x=Math.min(innerWidth-TT.offsetWidth-12,ev.clientX+16),y=Math.max(8,ev.clientY-TT.offsetHeight-12);TT.style.left=x+'px';TT.style.top=y+'px';}
+function tipHide(){TT.style.opacity=0;}
+/* E8 sparkline */
+function spark(vals,w,h,col){w=w||160;h=h||30;const lo=Math.min(...vals),hi=Math.max(...vals),X=i=>2+i*(w-4)/(vals.length-1),Y=v=>h-3-(v-lo)/((hi-lo)||1)*(h-6);
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><polyline fill="none" stroke="${col||'#1663c7'}" stroke-width="1.6" points="${vals.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/><circle cx="${X(vals.length-1)}" cy="${Y(vals[vals.length-1])}" r="2.6" fill="${col||'#1663c7'}"/></svg>`;}
+/* E1 + E2 + E7 + E4: chart extras by chart id */
+window.CX={
+  sc:()=>({band:1,notes:[{w:'16 Oct',t:'Cash call +345.8m',c:'#2f7d4f'},{w:'09 Oct',t:'Low 166.7m',c:'#b8321f',pos:'below'},{w:'25 Sep',t:fridaysBelow+' Fridays below buffer',c:'#b7791f'}]}),
+  hc:()=>state.hb==='cash'?({band:1,notes:[{w:'16 Oct',t:'Cash call +345.8m',c:'#2f7d4f'},{w:'09 Oct',t:'Low 166.7m',c:'#b8321f',pos:'below'}],pick:state.pick,onPick:i=>{state.pick=i;renderHistory();wireCommon();document.getElementById('wf')&&document.getElementById('wf').scrollIntoView({behavior:'smooth',block:'nearest'});}}):({pick:state.pick,onPick:i=>{state.pick=i;renderHistory();wireCommon();}})
+};
+/* E5 what changed */
+function changes(k){const a=12-k,list=[];
+  BK.forEach(b=>{const d=b.tot[12]-b.tot[a];if(Math.abs(d)>=1)list.push({t:`${b.bank}`,d,s:`${b.bank} ${d>0?'up':'down'} ${aed(Math.abs(d))} to ${aed(b.tot[12])}`});});
+  [['Current accounts','ca'],['Fixed deposits','fd'],['Money market funds','mmf']].forEach(([l,key])=>{const d=WK[12][key]-WK[a][key];if(Math.abs(d)>=1)list.push({t:l,d,s:`${l} ${d>0?'up':'down'} ${aed(Math.abs(d))} to ${aed(WK[12][key])}`});});
+  return list.sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,3);}
+function cmpCtl(){return `<span class="cmp">${[[1,'vs last week'],[4,'vs 4 weeks ago']].map(c=>`<span data-cmp="${c[0]}" class="${state.cmp===c[0]?'on':''}">${c[1]}</span>`).join('')}</span>`;}
+/* E8 KPI strip */
+function kpiStrip(){const k=state.cmp,a=12-k,top=w=>Math.max(...BK.map(b=>b.tot[w]))/WK[w].cash;
+  const K=[['Cash',W.map((_,i)=>WK[i].cash),v=>aed(v),(x,y)=>sg(x-y)+'m'],['Headroom over buffer',W.map((_,i)=>WK[i].cash-BUF/1e6),v=>aed(v),(x,y)=>sg(x-y)+'m'],['Fixed deposit share',W.map((_,i)=>WK[i].fd/WK[i].cash),v=>pc(v),(x,y)=>((x-y)*100>=0?'+':'')+((x-y)*100).toFixed(0)+' pts'],['Top bank share',W.map((_,i)=>top(i)),v=>pc(v),(x,y)=>((x-y)*100>=0?'+':'')+((x-y)*100).toFixed(0)+' pts']];
+  return `<div class="kpis">${K.map(q=>`<div class="kpi"><div class="l">${q[0]}</div><div class="v">${q[2](q[1][12])}</div><div class="d">${q[3](q[1][12],q[1][a])} ${k===1?'vs last week':'vs 4 weeks ago'}</div>${spark(q[1],200,30)}</div>`).join('')}</div>`;}
+const _rs=renderSummary;renderSummary=function(){_rs();
+  const sub=document.querySelectorAll('#view p.sub')[1];
+  const ch=changes(state.cmp);
+  sub.insertAdjacentHTML('afterend',kpiStrip()+`<section style="padding:18px 0 4px;border-top:0"><h2>What changed ${cmpCtl()}</h2>${ch.map(c=>`<div class="chg"><span class="ar ${c.d<0?'neg':'pos'}">${c.d<0?'&#9660;':'&#9650;'}</span><span>${c.s}</span><span class="n ${c.d<0?'neg':''}">${sg(c.d)}m</span></div>`).join('')}<p class="note" style="margin-top:6px">From the position file, by bank and instrument. Deposits moving between banks show as one bank down, another up.</p></section>`);
+  document.querySelectorAll('[data-cmp]').forEach(e=>e.onclick=()=>{state.cmp=+e.dataset.cmp;render();});
+};
+/* E3 stacked area + E4 week waterfall in History */
+function stackSvg(){const w=760,h=220,L=50,Rr=14,T=12,B=26,n=W.length,mx=Math.ceil(Math.max(...WK.map(x=>x.cash))/100)*100,X=i=>L+i*(w-L-Rr)/(n-1),Y=v=>T+(mx-v)/mx*(h-T-B);
+  const lay=[['mmf','#21b07c','Money market funds'],['fd','#1663c7','Fixed deposits'],['ca','#9fb8d6','Current accounts']];let g='';
+  for(let v=0;v<=mx;v+=100)g+=`<line x1="${L}" x2="${w-Rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e6e9ee"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v}</text>`;
+  let base=WK.map(()=>0);lay.forEach(([k,col,l])=>{const top=WK.map((x,i)=>base[i]+x[k]);g+=`<polygon points="${top.map((v,i)=>X(i)+','+Y(v)).join(' ')} ${base.map((v,i)=>X(i)+','+Y(v)).reverse().join(' ')}" fill="${col}" opacity=".85"><title>${l}</title></polygon>`;base=top;});
+  const i23=W.indexOf('23 Oct');g+=`<line x1="${X(i23)}" x2="${X(i23)}" y1="${T}" y2="${h-B}" stroke="#14202e" stroke-dasharray="3 3" opacity=".5"/><text x="${X(i23)-6}" y="${T+12}" text-anchor="end" style="font-size:10.5px;font-weight:600;fill:#14202e">AED 302.2m into deposits</text>`;
+  W.forEach((l,i)=>{if(i%2===0||i===n-1)g+=`<text x="${X(i)}" y="${h-8}" text-anchor="middle">${l}</text>`;});
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%">${g}</svg><div class="presets" style="font-size:12px;color:var(--mut)">${lay.slice().reverse().map(([k,c,l])=>`<span><i style="display:inline-block;width:10px;height:10px;background:${c};margin-right:5px;vertical-align:-1px"></i>${l}</span>`).join('')}</div>`;}
+function waterfall(i){const r=R[i];if(!i)return '<p class="note">Pick a later week: 07 Aug is the first week in the file.</p>';
+  const st=[['Opening',r.o,'t'],['Receipts',r.r,'d'],['Payments',-r.p,'d'],['Financing',r.f,'d'],['FX',r.x,'d'],['Closing',r.c,'t']].filter(s=>s[2]==='t'||Math.abs(s[1])>0.05);
+  const w=520,h=40+st.length*28,L=96,Rr=60;let run=0;const lv=st.map(s=>{if(s[2]==='t'){run=s[1];return[0,s[1]]}const a=run;run+=s[1];return[a,run]});const mx=Math.max(...lv.flat())*1.05,x=v=>L+v/mx*(w-L-Rr);let g='';
+  st.forEach((q,k)=>{const yy=10+k*28,[a,b]=lv[k],col=q[2]==='t'?'#14202e':q[0]==='Financing'?'#6f56d1':q[1]>=0?'#2f7d4f':'#b8321f';g+=`<text x="${L-8}" y="${yy+13}" text-anchor="end" style="font-size:11.5px;fill:#22324a">${q[0]}</text><rect x="${x(Math.min(a,b))}" y="${yy}" width="${Math.max(2,Math.abs(x(b)-x(a)))}" height="18" rx="3" fill="${col}"/><text x="${x(Math.max(a,b))+5}" y="${yy+13}" style="font-size:11px;fill:#22324a">${q[2]==='t'?f1(q[1]):sg(q[1])}</text>`;});
+  const p=WK[i-1],c=WK[i],moves=[['Current accounts',c.ca-p.ca],['Fixed deposits',c.fd-p.fd],['Money market funds',c.mmf-p.mmf]].filter(m=>Math.abs(m[1])>=1).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1]));
+  const bm=BK.map(b=>[b.bank,b.tot[i]-b.tot[i-1]]).filter(m=>Math.abs(m[1])>=1).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,2);
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:620px">${g}</svg><p class="wfx"><b>Week ending ${r.w}:</b> cash ${r.c-r.o>=0?'up':'down'} ${aed(Math.abs(r.c-r.o))}${r.f?', including the AED 345.8m cash call':''}. ${moves.length?'Instruments: '+moves.map(m=>`${m[0].toLowerCase()} ${sg(m[1])}m`).join(', ')+'.':''} ${bm.length?'Banks: '+bm.map(m=>`${m[0]} ${sg(m[1])}m`).join(', ')+'.':''}</p><p class="note">Opening, closing, FX and the instrument and bank moves are from your position file; the receipts and payments split is illustrative until the TMS export is connected.</p>`;}
+const _rh=renderHistory;renderHistory=function(){_rh();
+  const read=document.getElementById('hread');
+  read.insertAdjacentHTML('afterend',`<section id="wf"><h2>Week in detail <span class="mut" style="text-transform:none;letter-spacing:0;font-weight:400">· click a week on the chart</span></h2>${waterfall(state.pick)}</section>`);
+  document.querySelectorAll('#tWkX').forEach(()=>{});
+};
+/* E6 bank share trend + E8 bank sparklines in Positions */
+const _ra=renderAccounts;renderAccounts=function(){_ra();
+  const top=BK.filter(b=>b.tot[12]>1).sort((a,b)=>b.tot[12]-a.tot[12]);
+  const hhi=W.map((_,i)=>BK.reduce((s,b)=>s+Math.pow(b.tot[i]/WK[i].cash,2),0));
+  const cols=['#1663c7','#21b07c','#b7791f','#6f56d1','#9aa1ab'];
+  const w=760,h=200,L=40,Rr=70,T=10,B=24,n=W.length,X=i=>L+i*(w-L-Rr)/(n-1),Y=v=>T+(1-v)*(h-T-B);let g='';
+  [0,.25,.5,.75,1].forEach(v=>g+=`<line x1="${L}" x2="${w-Rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e6e9ee"/><text x="${L-5}" y="${Y(v)+4}" text-anchor="end">${v*100}%</text>`);
+  g+=`<line id="bs_g" x1="0" x2="0" y1="${T}" y2="${h-B}" stroke="#14202e" opacity="0"/>`;
+  top.forEach((b,k)=>{const sh=b.tot.map((v,i)=>v/WK[i].cash);g+=`<polyline fill="none" stroke="${cols[k%5]}" stroke-width="2" points="${sh.map((v,i)=>X(i)+','+Y(v)).join(' ')}"><title>${b.bank}</title></polyline><text x="${w-Rr+6}" y="${Y(sh[12])+4}" style="font-size:11px;font-weight:600;fill:${cols[k%5]}">${b.bank} ${pc(sh[12])}</text>`;});
+  W.forEach((l,i)=>{if(i%2===0||i===n-1)g+=`<text x="${X(i)}" y="${h-6}" text-anchor="middle">${l}</text>`;});
+  const tbl=`<table style="margin-top:8px"><tr><th>Bank</th><th>13 weeks</th><th class="n">Now</th><th class="n">Share</th></tr>${top.map((b,k)=>`<tr><td>${b.bank}</td><td>${spark(b.tot,160,24,cols[k%5])}</td><td class="n">${f1(b.tot[12])}</td><td class="n">${pc(b.tot[12]/WK[12].cash)}</td></tr>`).join('')}</table>`;
+  const q=document.getElementById('q').closest('p');
+  q.insertAdjacentHTML('beforebegin',`<section style="border-top:0;padding-top:10px"><div class="cols"><div><h2>Bank share over 13 weeks</h2><svg id="bs" viewBox="0 0 ${w} ${h}" width="100%">${g}</svg><p class="note">Concentration score (sum of squared shares, 1 = one bank): ${hhi[12].toFixed(2)} now, ${hhi[0].toFixed(2)} on 07 Aug. FAB briefly held 72% on 16 Oct when the cash call landed.</p></div><div><h2>By bank</h2>${tbl}</div></div></section>`);
+  /* E6 hover: guide line and a card with every bank's share that week */
+  const sv=document.getElementById('bs'),gl=document.getElementById('bs_g');
+  sv.onmousemove=ev=>{const r=sv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*w;let i=Math.round((x-L)/((w-L-Rr)/(n-1)));i=Math.max(0,Math.min(n-1,i));gl.setAttribute('x1',X(i));gl.setAttribute('x2',X(i));gl.setAttribute('opacity','.3');
+    tipShow(ev,`<b>${W[i]}</b>: cash ${aed(WK[i].cash)}<br>`+top.map((b,k)=>`<span style="color:${cols[k%5]}">&#9632;</span> ${b.bank} ${pc(b.tot[i]/WK[i].cash)} <span class="mut">(${f1(b.tot[i])})</span>`).join('<br>')+`<br><span class="mut">Concentration score ${hhi[i].toFixed(2)}</span>`);};
+  sv.onmouseleave=()=>{gl.setAttribute('opacity','0');tipHide();};
+};
+/* E9 dark mode toggle */
+(function(){const b=document.createElement('button');b.className='modebtn';b.textContent='Dark';b.onclick=()=>{const d=document.documentElement.classList.toggle('dark');b.textContent=d?'Light':'Dark';};document.querySelector('.hdr .wrap').appendChild(b);})();
+/* E10 chat demo */
+(function(){
+  const QA=[
+   ['Why did cash drop below the buffer?',()=>`Cash closed below AED 300m on ${fridaysBelow} Fridays, 11 Sep to 09 Oct, low ${aed(Math.min(...R.map(r=>r.c)))} on 09 Oct. Deposits of AED 109.9m matured into current accounts on 02 Oct, and cash then fell AED 95.1m in the week to 09 Oct; the AED 345.8m cash call on 16 Oct lifted cash back to ${aed(WK[10].cash)}.`,'Position file, Fridays 11 Sep to 16 Oct'],
+   ['Where is our cash today?',()=>`${aed(LAST.c)} at 30 Oct: ${BK.filter(b=>b.tot[12]>1).sort((a,b)=>b.tot[12]-a.tot[12]).map(b=>`${b.bank} ${f1(b.tot[12])}`).join(', ')} (AED m). ${pc(WK[12].fd/WK[12].cash)} is in fixed deposits.`,'Position file, 30 Oct'],
+   ['What changed this week?',()=>changes(1).map(c=>c.s).join('; ')+'.','Position file, 23 and 30 Oct'],
+   ['Which deposits mature soon?',()=>{const d=ACC.filter(a=>a.mat).sort((a,b)=>new Date(a.mat)-new Date(b.mat)).slice(0,3);return 'Next three: '+d.map(a=>`${a.bank} ${aed(a.aed)} on ${a.mat}`).join('; ')+'.';},'Position file, maturity dates'],
+   ['Any data issues?',()=>`Two: AED 49.3m of fund positions typed "Other" on 11 Sep were left out of cash, and the restricted flag moves from week to week (AED ${f1(WK[11].restr)}m on 23 Oct, AED ${f1(WK[12].restr)}m on 30 Oct).`,'Data checks']];
+  const btn=document.createElement('button');btn.id='chatbtn';btn.title='Ask the dashboard (demo; needs Copilot Studio integration in practice)';btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/></svg>';
+  const box=document.createElement('div');box.id='chat';
+  box.innerHTML=`<div class="ch"><b>Ask the dashboard</b><span class="tag demo">Demo only</span></div><div class="cstudio">Demo with prepared answers. In practice this chat needs a <b>Copilot Studio</b> agent connected to the results on SharePoint, Microsoft sign-in and IT approval. That is a pilot extension, not part of the pilot; in the pilot you ask Copilot in Microsoft 365.</div><div class="cb" id="cb"><div class="m a">Ask about cash, banks, weeks or data issues. <span class="src">Answers below are prepared from the figures on this page.</span></div></div><div class="sq" id="sq">${QA.map((q,i)=>`<span data-q="${i}">${q[0]}</span>`).join('')}</div><form id="cf"><input id="ci" placeholder="Type a question" autocomplete="off"><button class="s">Send</button></form>`;
+  document.body.appendChild(btn);document.body.appendChild(box);
+  btn.onclick=()=>box.classList.toggle('open');
+  const cb=box.querySelector('#cb');
+  function say(q,i){cb.insertAdjacentHTML('beforeend',`<div class="m u">${q.replace(/</g,'&lt;')}</div>`);
+    const typing=document.createElement('div');typing.className='m a';typing.textContent='…';cb.appendChild(typing);cb.scrollTop=cb.scrollHeight;
+    setTimeout(()=>{typing.innerHTML=i>=0?`${QA[i][1]()}<span class="src">Source: ${QA[i][2]}</span>`:`In the pilot, Copilot answers this from the same results. In this demo, try one of the suggested questions.`;cb.scrollTop=cb.scrollHeight;},500);}
+  box.querySelectorAll('[data-q]').forEach(s=>s.onclick=()=>say(QA[+s.dataset.q][0],+s.dataset.q));
+  box.querySelector('#cf').onsubmit=e=>{e.preventDefault();const v=box.querySelector('#ci').value.trim();if(!v)return;box.querySelector('#ci').value='';
+    const l=v.toLowerCase(),i=/buffer|below|low/.test(l)?0:/where|bank|today|cash now/.test(l)?1:/chang|week/.test(l)?2:/matur|deposit/.test(l)?3:/issue|data|quality|error/.test(l)?4:-1;say(v,i);};
+})();
+render();
+</script>
+</body>
+</html>
